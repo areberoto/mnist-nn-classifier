@@ -56,8 +56,10 @@ Network::~Network() {
 
 //Feedforward
 Matrix Network::feedforward(Matrix a) {
-	a = weights[0].dot(a) + biases[0];
-	a.sigmoid();
+	for (size_t i{ 0 }; i < num_layers - 1; i++) {
+		a = weights[i].dot(a) + biases[i];
+		a.sigmoid();
+	}	
 	return a;
 }
 

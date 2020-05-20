@@ -15,18 +15,18 @@ int main()
 {
     const int n = 3;
     int* sizes = new int[n] {2, 3, 1};
-    Matrix a{ 1, 2 };
-
+    
+    Matrix input{ 1, 2 };
     Network NN{ sizes };
 
     cout << "Input: " << endl;
-    cout << a << endl;
-    cout << "Print biases:" << endl;
+    cout << input << endl;
+    cout << "BIASES:" << endl;
     NN.printBiases();
-    cout << "Print weights:" << endl;
+    cout << "WEIGHTS:" << endl;
     NN.printWeights();
 
-    cout << "Dot: " << NN.feedforward(a) << endl;
+    cout << "Dot: " << NN.feedforward(input) << endl;
 
     return 0;
 }

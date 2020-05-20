@@ -1,7 +1,2 @@
-﻿  Network.cpp
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(19,25): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(24,25): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(25,26): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(57,24): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(64,24): warning C4018: '<': signed/unsigned mismatch
+﻿  HD_NN.cpp
   HD_NN.vcxproj -> D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\Debug\HD_NN.exe

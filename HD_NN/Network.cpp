@@ -26,6 +26,7 @@ Network::Network(int* sizes)
 				//Get sizes from [:-1]
 				if (i == 0)
 					matrix_sizes[i * (num_layers - 1) + j] = sizes[j];
+				//Get sizes from [1:]
 				else
 					matrix_sizes[i * (num_layers - 1) + j] = sizes[j + 1];
 			}
@@ -54,14 +55,18 @@ Network::~Network() {
 
 //Print biases
 void Network::printBiases() {
-	for (size_t i{ 0 }; i < num_layers - 1; i++)
+	for (size_t i{ 0 }; i < num_layers - 1; i++) {
+		cout << "Biases " << i + 1 << ": " << endl;
 		cout << biases[i] << endl;
+	}
 	cout << endl;
 }
 
 //Print weights
 void Network::printWeights() {
-	for (size_t i{ 0 }; i < num_layers - 1; i++)
+	for (size_t i{ 0 }; i < num_layers - 1; i++) {
+		cout << "Weights " << i + 1 << ": " << endl;
 		cout << weights[i] << endl;
+	}
 	cout << endl;
 }

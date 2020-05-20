@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <random>
+#include <iomanip>
 #include "Matrix.h"
 
 using std::cin;
@@ -18,10 +19,10 @@ Matrix::Matrix(int rows, int columns)
 	rows = (rows < 0) ? -rows : rows;
 	columns = (columns < 0) ? -columns : columns;
 
-	//Configuration of random numbers
+	//Configuration of random numbers with gaussian normal distribution
 	std::random_device rd{};
 	std::mt19937 gen{ rd() };
-	std::normal_distribution<> norm_dist{ 0, 1 };
+	std::normal_distribution<> norm_dist{ 0.0, 1.0 };
 
 	matrix = new double[rows * columns];
 	if (NULL != matrix) {
@@ -175,9 +176,10 @@ double Matrix::operator!() {
 
 //Print matrix
 std::ostream& operator<<(std::ostream& os, const Matrix& mtx) {
+	os << std::fixed << std::setprecision(2);
 	for (size_t i{ 0 }; i < mtx.n; i++) {
 		for (size_t j{ 0 }; j < mtx.m; j++)
-			os << '\t' << mtx.matrix[i * mtx.m + j];
+			os << std::setw(8) << mtx.matrix[i * mtx.m + j];
 		os << endl;
 	}
 	return os;

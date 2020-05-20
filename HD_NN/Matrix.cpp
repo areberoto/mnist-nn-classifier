@@ -2,6 +2,7 @@
 #include <string>
 #include <random>
 #include <iomanip>
+#include <cmath>
 #include "Matrix.h"
 
 using std::cin;
@@ -204,4 +205,30 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
 			return *this;
 		}
 	}
+}
+
+//Dot product
+Matrix Matrix::dot(const Matrix& mtx) {
+	Matrix dotMatrix{ 1, n };
+	if (m == mtx.m && mtx.n == 1) {
+		double sum{ 0.0 };
+		for (size_t i{ 0 }; i < n; i++) {
+			for (size_t j{ 0 }; j < m; j++)
+				sum += matrix[i * m + j] * mtx.matrix[j];
+			dotMatrix[i] = sum;
+			sum = 0;
+		}
+		return dotMatrix;
+	}
+	else {
+		cout << "\nERROR WITH DOT PRODUCT!" << endl;
+		return dotMatrix;
+	}
+}
+
+//Sigmoid function
+Matrix Matrix::sigmoid() {
+	for (size_t i{ 0 }; i < m * n; i++)
+		matrix[i] = 1.0 / (1.0 + exp(matrix[i] * -1));
+	return *this;
 }

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "Network.h"
 
 using std::cin;
@@ -33,14 +34,14 @@ Network::Network(int* sizes)
 		}
 
 		//Initialize weights
-		Matrix weights_1{ static_cast<int>(matrix_sizes[0]), static_cast<int>(matrix_sizes[1]) };
-		Matrix weights_2{ static_cast<int>(matrix_sizes[2]), static_cast<int>(matrix_sizes[3]) };
+		Matrix weights_1{ static_cast<int>(matrix_sizes[1]), static_cast<int>(matrix_sizes[0]) };
+		Matrix weights_2{ static_cast<int>(matrix_sizes[3]), static_cast<int>(matrix_sizes[2]) };
 		weights[0] = weights_1;
 		weights[1] = weights_2;
 
 		//Initialize biases
-		Matrix biases_1{ static_cast<int>(matrix_sizes[2]), 1 };
-		Matrix biases_2{ static_cast<int>(matrix_sizes[3]), 1 };
+		Matrix biases_1{ 1, static_cast<int>(matrix_sizes[2]) };
+		Matrix biases_2{ 1, static_cast<int>(matrix_sizes[3]) };
 		biases[0] = biases_1;
 		biases[1] = biases_2;
 	}
@@ -51,6 +52,13 @@ Network::~Network() {
 	delete[] weights;
 	delete[] biases;
 	delete[] sizes;
+}
+
+//Feedforward
+Matrix Network::feedforward(Matrix a) {
+	a = weights[0].dot(a) + biases[0];
+	a.sigmoid();
+	return a;
 }
 
 //Print biases

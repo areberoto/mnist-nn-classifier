@@ -19,6 +19,8 @@ public:
 	Matrix operator*(const Matrix& mtx);
 	friend Matrix operator*(const Matrix& mtx, double scalar);
 	friend Matrix operator*(double scalar, const Matrix& mtx);
+	Matrix dot(const Matrix& mtx);
+	Matrix sigmoid();
 	double operator!();
 	double& operator[](int);
 	Matrix& operator=(const Matrix& rhs);

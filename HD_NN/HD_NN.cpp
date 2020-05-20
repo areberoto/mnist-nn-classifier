@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include "Network.h"
+#include "Matrix.h"
 
 using std::cout;
 using std::cin;
@@ -14,13 +15,18 @@ int main()
 {
     const int n = 3;
     int* sizes = new int[n] {2, 3, 1};
+    Matrix a{ 1, 2 };
 
     Network NN{ sizes };
 
+    cout << "Input: " << endl;
+    cout << a << endl;
     cout << "Print biases:" << endl;
     NN.printBiases();
     cout << "Print weights:" << endl;
     NN.printWeights();
+
+    cout << "Dot: " << NN.feedforward(a) << endl;
 
     return 0;
 }

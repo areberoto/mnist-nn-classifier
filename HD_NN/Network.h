@@ -12,6 +12,7 @@ public:
 	Network(int* sizes);
 	~Network();
 
+	Matrix feedforward(Matrix a);
 	void printBiases();
 	void printWeights();
 };

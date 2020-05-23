@@ -232,3 +232,9 @@ Matrix Matrix::sigmoid() {
 		matrix[i] = 1.0 / (1.0 + exp(matrix[i] * -1));
 	return *this;
 }
+
+//Set all values to zero
+void Matrix::zeros() {
+	for (size_t i{ 0 }; i < m * n; i++)
+		matrix[i] = 0.0;
+}

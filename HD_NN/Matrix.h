@@ -24,5 +24,6 @@ public:
 	double operator!();
 	double& operator[](int);
 	Matrix& operator=(const Matrix& rhs);
+	void zeros();
 	friend std::ostream& operator<<(std::ostream& os, const Matrix& mtx);
 };

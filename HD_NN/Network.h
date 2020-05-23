@@ -8,6 +8,8 @@ class Network{
 	int* sizes;
 	Matrix* biases;
 	Matrix* weights;
+	Matrix* nabla_b;
+	Matrix* nabla_w;
 
 public:
 	Network(int* sizes);

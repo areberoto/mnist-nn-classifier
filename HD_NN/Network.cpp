@@ -9,13 +9,15 @@ using std::endl;
 
 //Constructor
 Network::Network(int* sizes) 
-	:num_layers{ 3 }, sizes{ nullptr }, biases{ nullptr }, weights{ nullptr } {
+	:num_layers{ 3 }, sizes{ nullptr }, biases{ nullptr }, weights{ nullptr }, nabla_b{ nullptr }, nabla_w{ nullptr } {
 
 	this->sizes = new int[num_layers];
 	biases = new Matrix[num_layers - 1];
 	weights = new Matrix[num_layers - 1];
+	nabla_b = new Matrix[num_layers - 1];
+	nabla_w = new Matrix[num_layers - 1];
 
-	if (NULL != sizes && NULL != biases && NULL != weights) {
+	if (NULL != sizes && NULL != biases && NULL != weights && NULL != nabla_b && NULL != nabla_w) {
 
 		//Initialize sizes
 		for (size_t i{ 0 }; i < num_layers; i++)
@@ -40,11 +42,23 @@ Network::Network(int* sizes)
 		weights[0] = weights_1;
 		weights[1] = weights_2;
 
+		//Create zero matrices for weights used in minibatch
+		weights_1.zeros();
+		weights_2.zeros();
+		nabla_w[0] = weights_1;
+		nabla_w[1] = weights_2;
+
 		//Initialize biases
 		Matrix biases_1{ 1, static_cast<int>(matrix_sizes[2]) };
 		Matrix biases_2{ 1, static_cast<int>(matrix_sizes[3]) };
 		biases[0] = biases_1;
 		biases[1] = biases_2;
+
+		//Create zero matrices for biases used in minibatch
+		biases_1.zeros();
+		biases_2.zeros();
+		nabla_b[0] = biases_1;
+		nabla_b[1] = biases_2;
 	}
 }
 

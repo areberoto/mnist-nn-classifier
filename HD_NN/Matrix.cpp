@@ -180,7 +180,7 @@ std::ostream& operator<<(std::ostream& os, const Matrix& mtx) {
 	os << std::fixed << std::setprecision(2);
 	for (size_t i{ 0 }; i < mtx.n; i++) {
 		for (size_t j{ 0 }; j < mtx.m; j++)
-			os << std::setw(8) << mtx.matrix[i * mtx.m + j];
+			os << std::setw(7) << mtx.matrix[i * mtx.m + j];
 		os << endl;
 	}
 	return os;
@@ -210,7 +210,7 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
 //Dot product
 Matrix Matrix::dot(const Matrix& mtx) {
 	Matrix dotMatrix{ 1, n };
-	if (m == mtx.m && mtx.n == 1) {
+	if (m == mtx.m*mtx.n) { //Input as matrix (not 1,n vector)!!!
 		double sum{ 0.0 };
 		for (size_t i{ 0 }; i < n; i++) {
 			for (size_t j{ 0 }; j < m; j++)

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include "Network.h"
+#include "MNIST_DS.h"
 
 using std::cin;
 using std::cout;
@@ -61,6 +62,20 @@ Matrix Network::feedforward(Matrix a) {
 		a.sigmoid();
 	}	
 	return a;
+}
+
+//SGD algorithm
+void Network::SGD(MNIST_DS training_data, int epochs, int mini_batch_size, double eta, MNIST_DS test_data) {
+	for (size_t i{ 0 }; i < epochs; i++) {
+		training_data.randomSet(mini_batch_size);
+		updateMiniBatch(training_data.getMiniBatchImages(), training_data.getMiniBatchLabels(), eta);
+		cout << "Epoch [" << i + 1 << "] complete." << endl;
+	}
+}
+
+//Update mini batch
+void Network::updateMiniBatch(Matrix* images, unsigned char* labels, double eta) {
+
 }
 
 //Print biases

@@ -17,8 +17,12 @@ public:
 
 	Matrix feedforward(Matrix a);
 	void SGD(MNIST_DS training_data, int epochs, int mini_batch_size, double eta, MNIST_DS test_data);
-	void updateMiniBatch(Matrix* images, unsigned char* labels, double eta);
+	void updateMiniBatch(MNIST_DS training_data, double eta);
+	void backpropagation(MNIST_DS training_data);
 	void printBiases();
 	void printWeights();
+	Matrix sigmoid(Matrix& mtx);
+	Matrix sigmoid_prime(Matrix& mtx);
+	Matrix cost_derivative(Matrix& output_activations, unsigned char& y);
 };
 

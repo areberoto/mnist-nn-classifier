@@ -1,13 +1,14 @@
+#include "MNIST_DS.h"
+#include "Matrix.h"
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "Matrix.h"
-#include <ctime>
-#include <cstdlib>
-#include "MNIST_DS.h"
+#include <vector>
+#include <algorithm>
 
 using std::endl;
 using std::cout;
+using std::vector;
 using std::string;
 using std::ofstream;
 using std::ifstream;
@@ -16,41 +17,25 @@ using std::cerr;
 
 //Constructor
 MNIST_DS::MNIST_DS(bool flag)
-    : train{ flag }, n{ 0 }, m{ 0 }, magic_number{ 0 }, number_of_items{ 0 }, image_dat_set{ nullptr },
-    label_dat_set{ nullptr }, mini_batch_size{ 0 }, mini_batch_images{ nullptr }, mini_batch_labels{ nullptr } {
+    : train{ flag }, n{ 0 }, m{ 0 }, magic_number{ 0 }, number_of_items{ 0 }, mini_batch_size{ 0 } {
 
-    srand(time(NULL));
+    image_dat_set = vector<Matrix>{};
+    label_dat_set = vector<unsigned char>{};
+
     load();
 }
 
 //Copy constructor
 MNIST_DS::MNIST_DS(const MNIST_DS& data) 
-    : train{ data.train }, n{ data.n }, m{ data.m }, magic_number{ data.magic_number }, number_of_items{ data.number_of_items }, image_dat_set{ nullptr },
-    label_dat_set{ nullptr }, mini_batch_size{ data.mini_batch_size }, mini_batch_images{ nullptr }, mini_batch_labels{ nullptr }{
+    : train{ data.train }, n{ data.n }, m{ data.m }, magic_number{ data.magic_number }, number_of_items{ data.number_of_items }, mini_batch_size{ data.mini_batch_size }{
 
-    image_dat_set = new Matrix[number_of_items];
-    label_dat_set = new unsigned char[number_of_items];
-    mini_batch_images = new Matrix[mini_batch_size];
-    mini_batch_labels = new unsigned char[mini_batch_size];
+    image_dat_set = vector<Matrix>(number_of_items);
+    label_dat_set = vector<unsigned char>(number_of_items);
 
-    if (NULL != image_dat_set && NULL != label_dat_set && NULL != mini_batch_images && NULL != mini_batch_labels) {
-        for (size_t i{ 0 }; i < number_of_items; i++) {
-            image_dat_set[i] = data.image_dat_set[i];
-            label_dat_set[i] = data.label_dat_set[i];
-        }
-        for (size_t i{ 0 }; i < mini_batch_size; i++) {
-            mini_batch_images[i] = data.mini_batch_images[i];
-            mini_batch_labels[i] = data.mini_batch_labels[i];
-        }
+    for (size_t i{ 0 }; i < number_of_items; i++) {
+        image_dat_set.at(i) = data.image_dat_set.at(i);
+        label_dat_set.at(i) = data.label_dat_set.at(i);
     }
-}
-
-//Destructor
-MNIST_DS::~MNIST_DS() {
-    delete[] image_dat_set;
-    delete[] label_dat_set;
-    delete[] mini_batch_images;
-    delete[] mini_batch_labels;
 }
 
 //Load data
@@ -89,22 +74,17 @@ void MNIST_DS::load() {
 
     unsigned char pixel{ 0 };
     Matrix image{ n, m };
-    image_dat_set = new Matrix[number_of_items];
+    //image_dat_set = vector<Matrix>(number_of_items);
 
-    if (NULL != image_dat_set) {
-        cout << "Loading data set of " << ((train) ? "training" : "test") << " images..." << endl;
-        for (size_t i{ 0 }; i < number_of_items; i++) {
-            for (size_t j{ 0 }; j < n * m; j++) {
-                inFile.read(reinterpret_cast<char*>(&pixel), sizeof(unsigned char));
-                image[j] = pixel;
-            }
-            image_dat_set[i] = image;
+    cout << "Loading data set of " << ((train) ? "training" : "test") << " images..." << endl;
+    for (size_t i{ 0 }; i < number_of_items; i++) {
+        for (size_t j{ 0 }; j < n * m; j++) {
+            inFile.read(reinterpret_cast<char*>(&pixel), sizeof(unsigned char));
+            image[j] = pixel;
         }
+        image_dat_set.push_back(image);
     }
-    else {
-        cerr << "Error trying to allocate dynamic memory!\n" << endl;
-        exit(1);
-    }
+  
 
     cout << "Finished loading data set of " << ((train) ? "training" : "test") << " images..." << endl;
     inFile.close();
@@ -126,18 +106,12 @@ void MNIST_DS::load() {
     number_of_items = reverseInt(number_of_items);
 
     unsigned char label{ 0 };
-    label_dat_set = new unsigned char[number_of_items];
+    //label_dat_set = new unsigned char[number_of_items];
 
-    if (NULL != label_dat_set) {
-        cout << "\nLoading data set of " << ((train) ? "training" : "test") << " labels..." << endl;
-        for (size_t i{ 0 }; i < number_of_items; i++) {
-            inLabels.read(reinterpret_cast<char*>(&label), sizeof(unsigned char));
-            label_dat_set[i] = label;
-        }
-    }
-    else {
-        cerr << "Error trying to allocate dynamic memory!\n" << endl;
-        exit(1);
+    cout << "\nLoading data set of " << ((train) ? "training" : "test") << " labels..." << endl;
+    for (size_t i{ 0 }; i < number_of_items; i++) {
+        inLabels.read(reinterpret_cast<char*>(&label), sizeof(unsigned char));
+        label_dat_set.push_back(label);
     }
 
     cout << "Finished loading data set of " << ((train) ? "training" : "test") << " labels..." << endl;
@@ -154,48 +128,50 @@ int MNIST_DS::reverseInt(int i) {
     return((int)ch1 << 24) + ((int)ch2 << 16) + ((int)ch3 << 8) + ch4;
 }
 
+//Get number of items
+int MNIST_DS::get_number_items() {
+    return number_of_items;
+}
+
 //Get image
 Matrix MNIST_DS::getImage(int index) {
-    return image_dat_set[index];
+    return image_dat_set.at(index);
 }
 
 //Get label
 int MNIST_DS::getLabel(int index) {
-    return static_cast<int>(label_dat_set[index]);
+    return static_cast<int>(label_dat_set.at(index));
 }
 
-//Create mini_batch
-void MNIST_DS::randomSet(int n) {
-    mini_batch_size = n;
-    int* index_array = new int[mini_batch_size];
+void MNIST_DS::shuffle() {
+    vector<int> indexes;
+    indexes.reserve(number_of_items);
 
-    //Optimize for different numbers
-    for (size_t i{ 0 }; i < mini_batch_size; i++)
-        index_array[i] = rand() % (number_of_items + 1);
+    for (size_t i{ 0 }; i < number_of_items; i++)
+        indexes.push_back(i);
+    std::random_shuffle(indexes.begin(), indexes.end());
 
-    if (NULL != mini_batch_images)
-        delete[] mini_batch_images;
-    if (NULL != mini_batch_labels)
-        delete[] mini_batch_labels;
+    vector<Matrix> temp_image;
+    temp_image.reserve(number_of_items);
+    vector<unsigned char> temp_label;
+    temp_label.reserve(number_of_items);
 
-    mini_batch_images = new Matrix[mini_batch_size];
-    mini_batch_labels = new unsigned char[mini_batch_size];
-    if (NULL != mini_batch_images && NULL != mini_batch_labels) {
-        for (size_t i{ 0 }; i < mini_batch_size; i++) {
-            mini_batch_images[i] = getImage(index_array[i]);
-            mini_batch_labels[i] = getLabel(index_array[i]);
-        }
+    for (size_t i{ 0 }; i < number_of_items; i++) {
+        temp_image.push_back(image_dat_set.at(indexes.at(i)));
+        temp_label.push_back(label_dat_set.at(indexes.at(i)));
     }
-    else {
-        cerr << "Error trying to allocate dynamic memory!\n" << endl;
-        exit(1);
+
+    image_dat_set = temp_image;
+    label_dat_set = temp_label;
+}
+
+void MNIST_DS::mini_batches(int mini_batch_size) {
+    this->mini_batch_size = mini_batch_size;
+    mini_batch_imag.reserve(number_of_items / mini_batch_size);
+    mini_batch_label.resize(number_of_items / mini_batch_size);
+
+    //need two dimension vector!
+    for (size_t i{ 0 }; i < number_of_items; i++) {
+
     }
-}
-
-Matrix* MNIST_DS::getMiniBatchImages() {
-    return mini_batch_images;
-}
-
-unsigned char* MNIST_DS::getMiniBatchLabels() {
-    return mini_batch_labels;
 }

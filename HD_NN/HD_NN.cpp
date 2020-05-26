@@ -19,19 +19,21 @@ int main()
 
     MNIST_DS training_data{ true };
     MNIST_DS test_data{ false };
+    Network NN{ sizes };    
+    NN.SGD(training_data, 30, 10, 3.0, test_data);
+
+    //int* sizes = new int[n] {2, 3, 1};
+    //Network NN{ sizes };
     //Matrix input{ inputImage.getImage(0) };
-    
+
     //Matrix input{ 1, 2 };
-    Network NN{ sizes };
 
     //cout << "BIASES:" << endl;
     //NN.printBiases();
     //cout << "WEIGHTS:" << endl;
     //NN.printWeights();   
 
-    //cout << input << endl;
+    //cout << "Input: " << input << endl;
     //cout << "Output: " << NN.feedforward(input);
-    NN.SGD(training_data, 30, 10, 3.0, test_data);
-
     return 0;
 }

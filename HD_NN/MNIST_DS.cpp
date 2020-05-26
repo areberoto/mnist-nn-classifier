@@ -20,7 +20,9 @@ MNIST_DS::MNIST_DS(bool flag)
     : train{ flag }, n{ 0 }, m{ 0 }, magic_number{ 0 }, number_of_items{ 0 }, mini_batch_size{ 0 } {
 
     image_dat_set = vector<Matrix>{};
-    label_dat_set = vector<unsigned char>{};
+    label_dat_set = vector<Matrix>{};
+    mini_batch_imag = vector<vector<Matrix>>{};
+    mini_batch_label = vector<vector<Matrix>>{};
 
     load();
 }
@@ -29,13 +31,27 @@ MNIST_DS::MNIST_DS(bool flag)
 MNIST_DS::MNIST_DS(const MNIST_DS& data) 
     : train{ data.train }, n{ data.n }, m{ data.m }, magic_number{ data.magic_number }, number_of_items{ data.number_of_items }, mini_batch_size{ data.mini_batch_size }{
 
-    image_dat_set = vector<Matrix>(number_of_items);
-    label_dat_set = vector<unsigned char>(number_of_items);
+    //image_dat_set = vector<Matrix>(number_of_items);
+    //label_dat_set = vector<Matrix>(number_of_items);
+    //mini_batch_imag = vector<vector<Matrix>>(number_of_items / mini_batch_size, vector<Matrix>(mini_batch_size));
+    //mini_batch_label = vector<vector<Matrix>>(number_of_items / mini_batch_size, vector<Matrix>(mini_batch_size));
 
-    for (size_t i{ 0 }; i < number_of_items; i++) {
-        image_dat_set.at(i) = data.image_dat_set.at(i);
-        label_dat_set.at(i) = data.label_dat_set.at(i);
-    }
+    image_dat_set = data.image_dat_set;
+    label_dat_set = data.label_dat_set;
+    mini_batch_imag = data.mini_batch_imag;
+    mini_batch_label = data.mini_batch_label;
+
+    //for (size_t i{ 0 }; i < number_of_items; i++) {
+    //    image_dat_set.at(i) = data.image_dat_set.at(i);
+    //    label_dat_set.at(i) = data.label_dat_set.at(i);
+    //}
+
+    //for (size_t i{ 0 }; i < number_of_items / mini_batch_size; i++) {
+    //    for (size_t j{ 0 }; j < mini_batch_size; j++) {
+    //        mini_batch_imag.at(i).at(j) = data.mini_batch_imag.at(i).at(j);
+    //        mini_batch_label.at(i).at(j) = data.mini_batch_label.at(i).at(j);
+    //    }
+    //}
 }
 
 //Load data
@@ -106,12 +122,16 @@ void MNIST_DS::load() {
     number_of_items = reverseInt(number_of_items);
 
     unsigned char label{ 0 };
+    Matrix temp{ 1, 10 };
     //label_dat_set = new unsigned char[number_of_items];
 
     cout << "\nLoading data set of " << ((train) ? "training" : "test") << " labels..." << endl;
     for (size_t i{ 0 }; i < number_of_items; i++) {
         inLabels.read(reinterpret_cast<char*>(&label), sizeof(unsigned char));
-        label_dat_set.push_back(label);
+
+        for (size_t j{ 0 }; j < 10; j++)
+            temp[j] = (j == static_cast<int>(label)) ? 1 : 0;
+        label_dat_set.push_back(temp);
     }
 
     cout << "Finished loading data set of " << ((train) ? "training" : "test") << " labels..." << endl;
@@ -139,8 +159,8 @@ Matrix MNIST_DS::getImage(int index) {
 }
 
 //Get label
-int MNIST_DS::getLabel(int index) {
-    return static_cast<int>(label_dat_set.at(index));
+Matrix MNIST_DS::getLabel(int index) {
+    return label_dat_set.at(index);
 }
 
 void MNIST_DS::shuffle() {
@@ -153,7 +173,7 @@ void MNIST_DS::shuffle() {
 
     vector<Matrix> temp_image;
     temp_image.reserve(number_of_items);
-    vector<unsigned char> temp_label;
+    vector<Matrix> temp_label;
     temp_label.reserve(number_of_items);
 
     for (size_t i{ 0 }; i < number_of_items; i++) {
@@ -165,13 +185,44 @@ void MNIST_DS::shuffle() {
     label_dat_set = temp_label;
 }
 
-void MNIST_DS::mini_batches(int mini_batch_size) {
-    this->mini_batch_size = mini_batch_size;
-    mini_batch_imag.reserve(number_of_items / mini_batch_size);
-    mini_batch_label.resize(number_of_items / mini_batch_size);
+void MNIST_DS::mini_batches(int n) {
+    mini_batch_size = n;
+    int index{ 0 };
 
-    //need two dimension vector!
-    for (size_t i{ 0 }; i < number_of_items; i++) {
+    mini_batch_imag = vector<vector<Matrix>>(number_of_items / mini_batch_size, vector<Matrix>(mini_batch_size));
+    mini_batch_label = vector<vector<Matrix>>(number_of_items / mini_batch_size, vector<Matrix>(mini_batch_size));
 
+    for (size_t i{ 0 }; i < number_of_items / mini_batch_size; i++) {
+        for (int j{ index }; j < index + mini_batch_size; j++) {
+            mini_batch_imag.at(i).at(j % mini_batch_size) = image_dat_set.at(j);
+            mini_batch_label.at(i).at(j % mini_batch_size) = label_dat_set.at(j);
+        }
+        index += mini_batch_size;
     }
+
+    //vector<vector<Matrix>> temp_images = vector<vector<Matrix>>(number_of_items / mini_batch_size, vector<Matrix>(mini_batch_size));
+    //vector<vector<Matrix>> temp_labels = vector<vector<Matrix>>(number_of_items / mini_batch_size, vector<Matrix>(mini_batch_size));
+
+    //for (size_t i{ 0 }; i < number_of_items / mini_batch_size; i++) {
+    //    for (int j{ index }; j < index + mini_batch_size; j++) {
+    //        temp_images.at(i).at(j % mini_batch_size) = image_dat_set.at(j);
+    //        temp_labels.at(i).at(j % mini_batch_size) = label_dat_set.at(j);
+    //    }
+    //    index += mini_batch_size;
+    //}
+
+    //mini_batch_imag = temp_images;
+    //mini_batch_label = temp_labels;
+}
+
+int MNIST_DS::get_mini_batch_size() {
+    return mini_batch_size;
+}
+
+vector<Matrix> MNIST_DS::getMiniBatchImages(int index) {
+    return mini_batch_imag.at(index);
+}
+
+vector<Matrix> MNIST_DS::getMiniBatchLabels(int index) {
+    return mini_batch_label.at(index);
 }

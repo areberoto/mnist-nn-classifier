@@ -45,6 +45,9 @@ Matrix::Matrix(const Matrix& mtx)
 		for (size_t i{ 0 }; i < n * m; i++)
 			matrix[i] = mtx.matrix[i];
 	}
+	else {
+		cout << "Error with dynamic memory!" << endl;
+	}
 }
 
 //Destructor

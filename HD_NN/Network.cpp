@@ -82,11 +82,16 @@ Matrix Network::feedforward(Matrix a) {
 
 //SGD algorithm
 void Network::SGD(MNIST_DS training_data, int epochs, int mini_batch_size, double eta, MNIST_DS test_data) {
-	int n{ training_data.get_number_items() };
 
 	for (size_t i{ 0 }; i < epochs; i++) {
 		training_data.shuffle();
 		training_data.mini_batches(mini_batch_size);
+
+		/*for (size_t j{ 0 }; j < 10; j++) {
+			cout << training_data.getMiniBatchImages(0).at(j) << endl;
+			cout << training_data.getMiniBatchLabels(0).at(j) << endl;
+		}*/
+
 		updateMiniBatch(training_data, eta);
 		cout << "Epoch [" << i + 1 << "] complete." << endl;
 	}
@@ -94,13 +99,14 @@ void Network::SGD(MNIST_DS training_data, int epochs, int mini_batch_size, doubl
 
 //Update mini batch
 void Network::updateMiniBatch(MNIST_DS training_data, double eta) {
-	//for (size_t i{ 0 }; i < training_data.getMiniBatchSize(); i++) {
-	//	
-	//}
+
+	for (size_t i{ 0 }; i < training_data.get_mini_batch_size(); i++) {
+		//backpropagation(training_data.getMiniBatchImages(i), training_data.getMiniBatchLabels(i));
+	}
 }
 
 //Backpropagation
-void Network::backpropagation(MNIST_DS training_data) {
+void Network::backpropagation(vector<Matrix> x, vector<Matrix> y) {
 	Matrix nabla_b_0{ nabla_b[0] };
 	Matrix nabla_b_1{ nabla_b[1] };
 	nabla_b_0.zeros();
@@ -111,21 +117,26 @@ void Network::backpropagation(MNIST_DS training_data) {
 	nabla_w_0.zeros();
 	nabla_w_1.zeros();
 	
-	////feedforward
-	//vector<Matrix> activation{ training_data.getMiniBatchImages() };
-	//vector<Matrix> activations{ training_data.getMiniBatchImages() }; //list to store all the activations, layer by layer
-	//vector<Matrix> zs{};
-	//Matrix z{ activation };
+	//feedforward
+	vector<Matrix> activation = x;
+	vector<vector<Matrix>> activations;
+	activations.push_back(x); //list to store all the activations, layer by layer
+	vector<vector<Matrix>> zs; //list to store all the z vectors, layer by layer
+	vector<Matrix> z;
 
-	//for (size_t i{ 0 }; i < num_layers - 1; i++) {
-	//	z = weights[i].dot(activation) + biases[i];
-	//	zs.push_back(z);
-	//	activation = sigmoid(z);
-	//	activations.push_back(activation);
-	//}
+	for (size_t i{ 0 }; i < num_layers - 1; i++) {
+		for (size_t j{ 0 }; j < x.size(); j++)
+			z.push_back(weights[i].dot(activation.at(j)) + biases[i]);
+		zs.push_back(z);
+		
+		for (size_t j{ 0 }; j < x.size(); j++) {
+			activation.at(j) = sigmoid(z.at(j));
+		}
+		activations.push_back(activation);
+	}
 
-	////Backward pass
-	//cost_derivative(activations.at(0), label)* sigmoid_prime(zs.at());
+	//Backward pass
+	cost_derivative(activations.back(), y);
 
 
 }
@@ -165,9 +176,10 @@ Matrix Network::sigmoid_prime(Matrix& mtx) {
 }
 
 //Cost derivative
-Matrix Network::cost_derivative(Matrix& output_activations, unsigned char& y) {
-	Matrix temp{ 1, output_activations.getSize() };
-	for (size_t i{ 0 }; i < output_activations.getSize(); i++)
+Matrix Network::cost_derivative(vector<Matrix> output_activations, vector<Matrix> y) {
+
+	Matrix temp{ 1, 10 };
+	for (size_t i{ 0 }; i < output_activations.size(); i++)
 		//temp[i] = output_activations[i] - y[i];
 	return temp;
 }

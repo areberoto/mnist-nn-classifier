@@ -25,5 +25,6 @@ public:
 	Matrix& operator=(const Matrix& rhs);
 	int getSize();
 	void zeros();
+	Matrix hadamard(const Matrix& mtx);
 	friend std::ostream& operator<<(std::ostream& os, const Matrix& mtx);
 };

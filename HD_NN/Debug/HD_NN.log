@@ -1,37 +1,21 @@
-﻿  Matrix.cpp
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(32,25): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(45,25): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(63,25): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(77,24): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(85,24): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(94,25): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(108,24): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(116,24): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(126,25): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(127,26): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(128,27): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(146,24): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(154,24): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(175,25): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(184,24): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(185,25): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(205,26): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(218,25): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(219,26): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(234,24): warning C4018: '<': signed/unsigned mismatch
-  Network.cpp
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(25,25): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(30,25): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(31,26): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(76,24): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(86,24): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(103,24): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(127,24): warning C4018: '<': signed/unsigned mismatch
+﻿  Network.cpp
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(27,25): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(32,25): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(33,26): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(92,24): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(102,24): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(106,25): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(123,24): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(125,25): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(131,24): warning C4018: '<': signed/unsigned mismatch
 D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(146,24): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(155,24): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(165,24): warning C4018: '<': signed/unsigned mismatch
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(173,24): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(185): warning C4715: 'Network::cost_derivative': not all control paths return a value
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Matrix.cpp(211): warning C4715: 'Matrix::operator=': not all control paths return a value
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(147,25): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(151,25): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(208,25): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(222,25): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(232,24): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(241,24): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(251,24): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(259,24): warning C4018: '<': signed/unsigned mismatch
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(267,24): warning C4018: '<': signed/unsigned mismatch
   HD_NN.vcxproj -> D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\Debug\HD_NN.exe

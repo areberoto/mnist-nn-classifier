@@ -229,6 +229,19 @@ Matrix Matrix::dot(const Matrix& mtx) {
 	}
 }
 
+Matrix Matrix::hadamard(const Matrix& mtx) {
+	Matrix dotMatrix{ 1, m };
+	if (m == mtx.m) {
+		for (size_t i{ 0 }; i < m; i++)
+			dotMatrix[i] = matrix[i] * mtx.matrix[i];
+		return dotMatrix;
+	}
+	else {
+		cout << "\nERROR WITH HADAMARD PRODUCT!" << endl;
+		return dotMatrix;
+	}
+}
+
 //Set all values to zero
 void Matrix::zeros() {
 	for (size_t i{ 0 }; i < m * n; i++)

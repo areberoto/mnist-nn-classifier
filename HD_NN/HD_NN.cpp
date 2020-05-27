@@ -17,10 +17,8 @@ int main()
     const int n = 3;
     int* sizes = new int[n] {784, 30, 10};
 
-    MNIST_DS training_data{ true };
-    MNIST_DS test_data{ false };
     Network NN{ sizes };    
-    NN.SGD(training_data, 30, 10, 3.0, test_data);
+    NN.SGD(30, 10, 3.0);
 
     //int* sizes = new int[n] {2, 3, 1};
     //Network NN{ sizes };

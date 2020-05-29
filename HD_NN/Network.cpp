@@ -11,7 +11,7 @@ using std::vector;
 
 //Constructor
 Network::Network(int* sizes) 
-	:num_layers{ 3 }, sizes{ nullptr }, biases{ nullptr }, weights{ nullptr }, nabla_b{ nullptr }, nabla_w{ nullptr }, training_data{ true }{
+	:num_layers{ 3 }, sizes{ nullptr }, biases{ nullptr }, weights{ nullptr }, nabla_b{ nullptr }, nabla_w{ nullptr }, training_data{ true }, test{ false }{
 
 	this->sizes = new int[num_layers];
 	biases = new Matrix[num_layers - 1];
@@ -103,14 +103,42 @@ void Network::SGD( int epochs, int mini_batch_size, double eta) {
 		training_data.shuffle();
 		training_data.mini_batches(mini_batch_size);
 
+		//for (size_t j{ 0 }; j < 1000; j++) {
 		for (size_t j{ 0 }; j < training_data.get_number_items() / mini_batch_size; j++) {
 			updateMiniBatch(j, eta);
 			cout << j << endl;
 		}
-			
 
 		cout << "Epoch [" << i + 1 << "] complete." << endl;
+		evaluate();
 	}
+}
+
+void Network::evaluate() {
+	Matrix result{ 1, 10 };
+	int index{ 0 }, y{ 0 };
+	int count{ 0 };
+	for (size_t i{ 0 }; i < test.get_number_items(); i++) {
+		 result = feedforward(test.getImage(i));
+		 index = argmax(result);
+		 result = test.getLabel(i);
+		 y = argmax(result);
+		 if (index == y)
+			 count++;
+	}
+	cout << count << "/" << test.get_number_items() << endl;
+}
+
+int Network::argmax(Matrix& mtx) {
+	double max{ mtx[0] };
+	int index{ 0 };
+	for (size_t i{ 1 }; i < mtx.getSize(); i++) {
+		if (max < mtx[i]) {
+			max = mtx[i];
+			index = i;
+		}			
+	}
+	return index;
 }
 
 //Update mini batch
@@ -120,6 +148,7 @@ void Network::updateMiniBatch(int mini_batch_index, double eta) {
 	nabla_w[0].zeros();
 	nabla_w[1].zeros();
 
+	
 	for (size_t i{ 0 }; i < training_data.get_mini_batch_size(); i++) {
 		backpropagation(training_data.getMiniBatchImages(mini_batch_index).at(i), training_data.getMiniBatchLabels(mini_batch_index).at(i));
 		for (size_t j{ 0 }; j < num_layers - 1; j++) {
@@ -161,16 +190,22 @@ void Network::backpropagation(Matrix x, Matrix y) {
 	Matrix delta = cd.hadamard(sp);
 
 	delta_nabla_b[1] = delta;
-	delta_nabla_w[1] = delta.dot(activations.at(activations.size() - 2));
+	delta.transpose();
+	//delta_nabla_w[1] = delta.dot(activations.at(activations.size() - 2));
+	delta_nabla_w[1] = delta * activations.at(activations.size() - 2);
+	delta.transpose();
 
 	//NEED TO CHECK -1 INDICES
-	for (int i{ 2 }; i < num_layers; i++) {
-		z = zs.at(zs.size() - i);
-		sp = sigmoid_prime(z);
-		delta = weights[1].dot(delta) * sp;
-		delta_nabla_b[0] = delta;
-		delta_nabla_w[0] = delta.dot(activations.at(activations.size() - i - 1));
-	}
+	z = zs.at(zs.size() - 2);
+	sp = sigmoid_prime(z);
+	weights[1].transpose();
+	delta = weights[1].dot(delta);
+	delta = delta.hadamard(sp);
+	weights[1].transpose();
+	delta_nabla_b[0] = delta;
+	delta.transpose();
+	delta_nabla_w[0] = delta * activations.at(0);
+	delta.transpose();
 	
 	////feedforward
 	//vector<Matrix> activation = x;

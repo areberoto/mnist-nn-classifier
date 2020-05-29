@@ -89,7 +89,8 @@ void MNIST_DS::load() {
     m = reverseInt(m);
 
     unsigned char pixel{ 0 };
-    Matrix image{ n, m };
+    //Matrix image{ n, m };
+    Matrix image{ 1, n * m };
     //image_dat_set = vector<Matrix>(number_of_items);
 
     cout << "Loading data set of " << ((train) ? "training" : "test") << " images..." << endl;

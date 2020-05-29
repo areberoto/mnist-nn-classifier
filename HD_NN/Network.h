@@ -13,6 +13,7 @@ class Network{
 	Matrix* delta_nabla_b;
 	Matrix* delta_nabla_w;
 	MNIST_DS training_data;
+	MNIST_DS test;
 
 public:
 	Network(int* sizes);
@@ -24,6 +25,8 @@ public:
 	void backpropagation(Matrix x, Matrix y);
 	void printBiases();
 	void printWeights();
+	void evaluate();
+	int argmax(Matrix& mtx);
 	Matrix sigmoid(Matrix& mtx);
 	Matrix sigmoid_prime(Matrix& mtx);
 	vector<Matrix> sigmoid(vector<Matrix>& mtx);

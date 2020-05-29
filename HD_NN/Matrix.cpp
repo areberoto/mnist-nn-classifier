@@ -251,3 +251,13 @@ void Matrix::zeros() {
 int Matrix::getSize() {
 	return n * m;
 }
+
+void Matrix::transpose() {
+	Matrix temp{ m, n };
+	for (size_t i{ 0 }; i < n; i++) {
+		for (size_t j{ 0 }; j < m; j++) {
+			temp[j * n + i] = matrix[i*m + j];
+		}
+	}
+	*this = temp;
+}

@@ -20,17 +20,15 @@ public:
 	~Network();
 
 	Matrix feedforward(Matrix a);
-	void SGD(int epochs, int mini_batch_size, double eta);
-	void updateMiniBatch(int mini_batch_index, double eta);
-	void backpropagation(Matrix x, Matrix y);
+	void SGD(int epochs, int mini_batch_size, float eta);
+	void updateMiniBatch(int mini_batch_index, float eta);
+	void backpropagation(int mini_batch_index, int index);
 	void printBiases();
 	void printWeights();
 	void evaluate();
 	int argmax(Matrix& mtx);
 	Matrix sigmoid(Matrix& mtx);
 	Matrix sigmoid_prime(Matrix& mtx);
-	vector<Matrix> sigmoid(vector<Matrix>& mtx);
-	vector<Matrix> sigmoid_prime(vector<Matrix>& mtx);
 	Matrix cost_derivative(Matrix output_activations, Matrix y);
 };
 

@@ -3,7 +3,7 @@
 class Matrix {
 	int n;		//number of rows
 	int m;		//number of columns
-	double* matrix;
+	float* matrix;
 
 public:
 	Matrix();
@@ -11,17 +11,17 @@ public:
 	Matrix(const Matrix& mtx);
 	~Matrix();
 	Matrix operator+(const Matrix& mtx);
-	friend Matrix operator+(const Matrix& mtx, double scalar);
-	friend Matrix operator+(double scalar, const Matrix& mtx);
+	friend Matrix operator+(const Matrix& mtx, float scalar);
+	friend Matrix operator+(float scalar, const Matrix& mtx);
 	Matrix operator-(const Matrix& mtx);
-	friend Matrix operator-(const Matrix& mtx, double scalar);
-	friend Matrix operator-(double scalar, const Matrix& mtx);
+	//friend Matrix operator-(const Matrix& mtx, float scalar);
+	//friend Matrix operator-(float scalar, const Matrix& mtx);
 	Matrix operator*(const Matrix& mtx);
-	friend Matrix operator*(const Matrix& mtx, double scalar);
-	friend Matrix operator*(double scalar, const Matrix& mtx);
+	friend Matrix operator*(const Matrix& mtx, float scalar);
+	friend Matrix operator*(float scalar, const Matrix& mtx);
 	Matrix dot(const Matrix& mtx);
-	double operator!();
-	double& operator[](int);
+	float operator!();
+	float& operator[](int);
 	Matrix& operator=(const Matrix& rhs);
 	int getSize();
 	void zeros();

@@ -23,9 +23,9 @@ Matrix::Matrix(int rows, int columns)
 	//Configuration of random numbers with gaussian normal distribution
 	std::random_device rd{};
 	std::mt19937 gen{ rd() };
-	std::normal_distribution<> norm_dist{ 0.0, 1.0 };
+	std::normal_distribution<> norm_dist{ 0.0f, 1.0f };
 
-	matrix = new double[rows * columns];
+	matrix = new float[rows * columns];
 	if (NULL != matrix) {
 		n = rows;
 		m = columns;
@@ -38,7 +38,7 @@ Matrix::Matrix(int rows, int columns)
 Matrix::Matrix(const Matrix& mtx)
 	: Matrix() {
 
-	matrix = new double[mtx.n * mtx.m];
+	matrix = new float[mtx.n * mtx.m];
 	if (NULL != matrix) {
 		n = mtx.n;
 		m = mtx.m;
@@ -72,7 +72,7 @@ Matrix Matrix::operator+(const Matrix& mtx) {
 }
 
 //Add matrix with scalar
-Matrix operator+(const Matrix& mtx, double scalar) {
+Matrix operator+(const Matrix& mtx, float scalar) {
 	Matrix tempMatrix{ mtx.n, mtx.m };
 	for (size_t i{ 0 }; i < mtx.n * mtx.m; i++)
 		tempMatrix[i] = mtx.matrix[i] + scalar;
@@ -80,7 +80,7 @@ Matrix operator+(const Matrix& mtx, double scalar) {
 }
 
 //Add scalar with matrix
-Matrix operator+(double scalar, const Matrix& mtx) {
+Matrix operator+(float scalar, const Matrix& mtx) {
 	Matrix tempMatrix{ mtx.n, mtx.m };
 	for (size_t i{ 0 }; i < mtx.n * mtx.m; i++)
 		tempMatrix[i] = mtx.matrix[i] + scalar;
@@ -102,33 +102,33 @@ Matrix Matrix::operator-(const Matrix& mtx) {
 	}
 }
 
-//Substract matrix with scalar
-Matrix operator-(const Matrix& mtx, double scalar) {
-	Matrix tempMatrix{ mtx.n, mtx.m };
-	for (size_t i{ 0 }; i < mtx.n * mtx.m; i++)
-		tempMatrix[i] = mtx.matrix[i] - scalar;
-	return tempMatrix;
-}
-
-//Substract scalar with matrix
-Matrix operator-(double scalar, const Matrix& mtx) {
-	Matrix tempMatrix{ mtx.n, mtx.m };
-	for (size_t i{ 0 }; i < mtx.n * mtx.m; i++)
-		tempMatrix[i] = mtx.matrix[i] - scalar;
-	return tempMatrix;
-}
+////Substract matrix with scalar
+//Matrix operator-(const Matrix& mtx, float scalar) {
+//	Matrix tempMatrix{ mtx.n, mtx.m };
+//	for (size_t i{ 0 }; i < mtx.n * mtx.m; i++)
+//		tempMatrix[i] = mtx.matrix[i] - scalar;
+//	return tempMatrix;
+//}
+//
+////Substract scalar with matrix
+//Matrix operator-(float scalar, const Matrix& mtx) {
+//	Matrix tempMatrix{ mtx.n, mtx.m };
+//	for (size_t i{ 0 }; i < mtx.n * mtx.m; i++)
+//		tempMatrix[i] = mtx.matrix[i] - scalar;
+//	return tempMatrix;
+//}
 
 //Multiply two matrices
 Matrix Matrix::operator*(const Matrix& mtx) {
 	if (m == mtx.n) {
 		Matrix tempMatrix{ n, mtx.m };
-		double temp{ 0 };
+		float temp{ 0.0f };
 		for (size_t k{ 0 }; k < n; k++) {
 			for (size_t i{ 0 }; i < mtx.m; i++) {
 				for (size_t j{ 0 }; j < mtx.n; j++)
 					temp += matrix[k * m + j] * mtx.matrix[mtx.m * j + i];
 				tempMatrix[k * mtx.m + i] = temp;
-				temp = 0;
+				temp = 0.0f;
 			}
 		}
 		return tempMatrix;
@@ -141,7 +141,7 @@ Matrix Matrix::operator*(const Matrix& mtx) {
 }
 
 //Multiply matrix with scalar
-Matrix operator*(const Matrix& mtx, double scalar) {
+Matrix operator*(const Matrix& mtx, float scalar) {
 	Matrix tempMatrix{ mtx.n, mtx.m };
 	for (size_t i{ 0 }; i < mtx.n * mtx.m; i++)
 		tempMatrix[i] = mtx.matrix[i] * scalar;
@@ -149,7 +149,7 @@ Matrix operator*(const Matrix& mtx, double scalar) {
 }
 
 //Multiply scalar with matrix
-Matrix operator*(double scalar, const Matrix& mtx) {
+Matrix operator*(float scalar, const Matrix& mtx) {
 	Matrix tempMatrix{ mtx.n, mtx.m };
 	for (size_t i{ 0 }; i < mtx.n * mtx.m; i++)
 		tempMatrix[i] = mtx.matrix[i] * scalar;
@@ -157,7 +157,7 @@ Matrix operator*(double scalar, const Matrix& mtx) {
 }
 
 //Operator []
-double& Matrix::operator[](int index) {
+float& Matrix::operator[](int index) {
 	if (index < 0)
 		index = -index;
 	if (index < n * m)
@@ -167,11 +167,11 @@ double& Matrix::operator[](int index) {
 }
 
 //Trace operator
-double Matrix::operator!() {
+float Matrix::operator!() {
 	if (n != m)
 		throw std::string{ "\tError using trace().\n\tMatrix must be square." };
 	else {
-		double sum{ 0 };
+		float sum{ 0.0f };
 		for (size_t i{ 0 }; i < n; i++)
 			sum += matrix[n * i + i];
 		return sum;
@@ -180,6 +180,7 @@ double Matrix::operator!() {
 
 //Print matrix
 std::ostream& operator<<(std::ostream& os, const Matrix& mtx) {
+	//os << std::scientific << std::setprecision(4);
 	os << std::fixed << std::setprecision(2);
 	for (size_t i{ 0 }; i < mtx.n; i++) {
 		for (size_t j{ 0 }; j < mtx.m; j++)
@@ -198,7 +199,7 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
 		delete[] matrix;
 		n = 0;
 		m = 0;
-		matrix = new double[rhs.n * rhs.m];
+		matrix = new float[rhs.n * rhs.m];
 		if (NULL != matrix) {
 			n = rhs.n;
 			m = rhs.m;
@@ -214,7 +215,7 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
 Matrix Matrix::dot(const Matrix& mtx) {
 	Matrix dotMatrix{ 1, n };
 	if (m == mtx.m*mtx.n) { //Input as matrix (not 1,n vector)!!!
-		double sum{ 0.0 };
+		float sum{ 0.0 };
 		for (size_t i{ 0 }; i < n; i++) {
 			for (size_t j{ 0 }; j < m; j++)
 				sum += matrix[i * m + j] * mtx.matrix[j];
@@ -245,7 +246,7 @@ Matrix Matrix::hadamard(const Matrix& mtx) {
 //Set all values to zero
 void Matrix::zeros() {
 	for (size_t i{ 0 }; i < m * n; i++)
-		matrix[i] = 0.0;
+		matrix[i] = 0.0f;
 }
 
 int Matrix::getSize() {
@@ -255,9 +256,8 @@ int Matrix::getSize() {
 void Matrix::transpose() {
 	Matrix temp{ m, n };
 	for (size_t i{ 0 }; i < n; i++) {
-		for (size_t j{ 0 }; j < m; j++) {
+		for (size_t j{ 0 }; j < m; j++)
 			temp[j * n + i] = matrix[i*m + j];
-		}
 	}
 	*this = temp;
 }

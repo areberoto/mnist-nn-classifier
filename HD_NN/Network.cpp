@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <iomanip>
 #include "Network.h"
 #include "MNIST_DS.h"
 
@@ -55,8 +56,10 @@ Network::Network(int* sizes)
 		delta_nabla_w[1] = weights_2;
 
 		//Initialize biases
-		Matrix biases_1{ 1, static_cast<int>(matrix_sizes[2]) };
-		Matrix biases_2{ 1, static_cast<int>(matrix_sizes[3]) };
+		/*Matrix biases_1{ 1, static_cast<int>(matrix_sizes[2]) };
+		Matrix biases_2{ 1, static_cast<int>(matrix_sizes[3]) };*/
+		Matrix biases_1{ static_cast<int>(matrix_sizes[2]), 1 };
+		Matrix biases_2{ static_cast<int>(matrix_sizes[3]), 1 };
 		biases[0] = biases_1;
 		biases[1] = biases_2;
 
@@ -67,16 +70,6 @@ Network::Network(int* sizes)
 		nabla_b[1] = biases_2;
 		delta_nabla_b[0] = biases_1;
 		delta_nabla_b[1] = biases_2;
-
-		//Matrix nabla_b_0{ nabla_b[0] };
-		//Matrix nabla_b_1{ nabla_b[1] };
-		///*nabla_b_0.zeros();
-		//nabla_b_1.zeros();*/
-
-		//Matrix nabla_w_0{ nabla_w[0] };
-		//Matrix nabla_w_1{ nabla_w[1] };
-		/*nabla_w_0.zeros();
-		nabla_w_1.zeros();*/
 	}
 }
 
@@ -85,26 +78,31 @@ Network::~Network() {
 	delete[] weights;
 	delete[] biases;
 	delete[] sizes;
+	delete[] nabla_b;
+	delete[] nabla_w;
+	delete[] delta_nabla_b;
+	delete[] delta_nabla_w;
 }
 
 //Feedforward
 Matrix Network::feedforward(Matrix a) {
 	for (size_t i{ 0 }; i < num_layers - 1; i++) {
-		a = weights[i].dot(a) + biases[i];
+		//a = weights[i].dot(a) + biases[i];
+		a.transpose();
+		a = weights[i] * a + biases[i];
 		a = sigmoid(a);
 	}	
 	return a;
 }
 
 //SGD algorithm
-void Network::SGD( int epochs, int mini_batch_size, double eta) {
-
+void Network::SGD( int epochs, int mini_batch_size, float eta) {
 	for (size_t i{ 0 }; i < epochs; i++) {
 		training_data.shuffle();
 		training_data.mini_batches(mini_batch_size);
 
-		//for (size_t j{ 0 }; j < 1000; j++) {
-		for (size_t j{ 0 }; j < training_data.get_number_items() / mini_batch_size; j++) {
+		for (size_t j{ 0 }; j < 1000; j++) {
+		//for (size_t j{ 0 }; j < training_data.get_number_items() / mini_batch_size; j++) {
 			updateMiniBatch(j, eta);
 			cout << j << endl;
 		}
@@ -119,12 +117,13 @@ void Network::evaluate() {
 	int index{ 0 }, y{ 0 };
 	int count{ 0 };
 	for (size_t i{ 0 }; i < test.get_number_items(); i++) {
-		 result = feedforward(test.getImage(i));
-		 index = argmax(result);
-		 result = test.getLabel(i);
-		 y = argmax(result);
-		 if (index == y)
-			 count++;
+		Matrix x{ test.getImage(i) };
+		result = feedforward(x);
+		index = argmax(result);
+		result = test.getLabel(i);
+		y = argmax(result);
+		if (index == y)
+			count++;
 	}
 	cout << count << "/" << test.get_number_items() << endl;
 }
@@ -142,29 +141,36 @@ int Network::argmax(Matrix& mtx) {
 }
 
 //Update mini batch
-void Network::updateMiniBatch(int mini_batch_index, double eta) {
+void Network::updateMiniBatch(int mini_batch_index, float eta) {
 	nabla_b[0].zeros();
 	nabla_b[1].zeros();
 	nabla_w[0].zeros();
 	nabla_w[1].zeros();
-
 	
 	for (size_t i{ 0 }; i < training_data.get_mini_batch_size(); i++) {
-		backpropagation(training_data.getMiniBatchImages(mini_batch_index).at(i), training_data.getMiniBatchLabels(mini_batch_index).at(i));
+		backpropagation(mini_batch_index, i);
 		for (size_t j{ 0 }; j < num_layers - 1; j++) {
 			nabla_b[j] = nabla_b[j] + delta_nabla_b[j];
 			nabla_w[j] = nabla_w[j] + delta_nabla_w[j];
 		}
 	}
-
+		
 	for (size_t i{ 0 }; i < num_layers - 1; i++) {
-		weights[i] = weights[i] - (eta / training_data.get_mini_batch_size()) * nabla_w[i];
-		biases[i] = biases[i] - (eta / training_data.get_mini_batch_size()) * nabla_b[i];
+		weights[i] = weights[i] - (nabla_w[i] * (eta / training_data.get_mini_batch_size()));
+		biases[i] = biases[i] - (nabla_b[i] * (eta / training_data.get_mini_batch_size()));
 	}
 }
 
 //Backpropagation
-void Network::backpropagation(Matrix x, Matrix y) {
+void Network::backpropagation(int mini_batch_index, int index) {
+	delta_nabla_b[0].zeros();
+	delta_nabla_b[1].zeros();
+	delta_nabla_w[0].zeros();
+	delta_nabla_w[1].zeros();
+
+	Matrix x{ training_data.getMiniBatchImages(mini_batch_index).at(index) };
+	Matrix y{ training_data.getMiniBatchLabels(mini_batch_index).at(index) };
+	
 	//feedforward
 	Matrix activation = x;
 	vector<Matrix> activations;
@@ -173,93 +179,34 @@ void Network::backpropagation(Matrix x, Matrix y) {
 	Matrix z;
 
 	for (size_t i{ 0 }; i < num_layers - 1; i++) {
-		for (size_t j{ 0 }; j < x.getSize(); j++)
-			z = weights[i].dot(activation) + biases[i];
+		//z = weights[i].dot(activation) + biases[i];
+		activation.transpose();
+		z = (weights[i] * activation) + biases[i];
+		activation.transpose();
 		zs.push_back(z);
-
-		for (size_t j{ 0 }; j < x.getSize(); j++) {
-			activation = sigmoid(z);
-		}
+		activation = sigmoid(z);
 		activations.push_back(activation);
 	}
 
 	//Backward pass
-	Matrix cd = cost_derivative(activations.at(activations.size() - 1), y);
-	Matrix sp = sigmoid_prime(zs.at(zs.size() - 1));
-
-	Matrix delta = cd.hadamard(sp);
+	Matrix delta = cost_derivative(activations.at(2), y).hadamard(sigmoid_prime(zs.at(1)));
+	delta.transpose();
 
 	delta_nabla_b[1] = delta;
-	delta.transpose();
-	//delta_nabla_w[1] = delta.dot(activations.at(activations.size() - 2));
-	delta_nabla_w[1] = delta * activations.at(activations.size() - 2);
-	delta.transpose();
+	delta_nabla_w[1] = delta * activations.at(1);
+	//delta.transpose();
 
-	//NEED TO CHECK -1 INDICES
-	z = zs.at(zs.size() - 2);
-	sp = sigmoid_prime(z);
+	z = zs.at(0);
+	Matrix sp = sigmoid_prime(z);
 	weights[1].transpose();
-	delta = weights[1].dot(delta);
+	delta = weights[1] * delta;
+	delta.transpose();
 	delta = delta.hadamard(sp);
 	weights[1].transpose();
-	delta_nabla_b[0] = delta;
 	delta.transpose();
+	delta_nabla_b[0] = delta;
 	delta_nabla_w[0] = delta * activations.at(0);
 	delta.transpose();
-	
-	////feedforward
-	//vector<Matrix> activation = x;
-	//vector<vector<Matrix>> activations;
-	//activations.push_back(x); //list to store all the activations, layer by layer
-	//vector<vector<Matrix>> zs; //list to store all the z vectors, layer by layer
-	//vector<Matrix> z(x.size());
-
-	//for (size_t i{ 0 }; i < num_layers - 1; i++) {
-	//	for (size_t j{ 0 }; j < x.size(); j++)
-	//		z.at(j) = weights[i].dot(activation.at(j)) + biases[i];
-	//	zs.push_back(z);
-	//	
-	//	for (size_t j{ 0 }; j < x.size(); j++) {
-	//		activation.at(j) = sigmoid(z.at(j));
-	//	}
-	//	activations.push_back(activation);
-	//}
-
-	////Backward pass
-	//vector<Matrix> cd = cost_derivative(activations.at(activations.size()-1), y);
-	//vector <Matrix> sp = sigmoid_prime(zs.at(zs.size()-1));
-
-	//vector<Matrix> delta;
-	//for (size_t i{ 0 }; i < cd.size(); i++)
-	//	delta.push_back(cd.at(i).hadamard(sp.at(i)));
-}
-
-vector<Matrix> Network::sigmoid(vector<Matrix>& mtx) {
-	vector<Matrix> temp{ mtx.size() };
-	int size_matrix = mtx.at(0).getSize();
-	Matrix temp_matrix{ 1, size_matrix };
-	
-	for (size_t i{ 0 }; i < temp.size(); i++) {
-		for (size_t j{ 0 }; j < size_matrix; j++) {
-			temp_matrix[j] = 1.0 / (1.0 + exp(mtx.at(i)[j] * -1));
-		}
-		temp.at(i) = temp_matrix;
-	}		
-	return temp;
-}
-
-vector<Matrix> Network::sigmoid_prime(vector<Matrix>& mtx) {
-	vector<Matrix> temp{ sigmoid(mtx) };
-	int size_matrix = mtx.at(0).getSize();
-	Matrix temp_matrix{ 1, size_matrix };
-
-	for (size_t i{ 0 }; i < temp.size(); i++) {
-		for (size_t j{ 0 }; j < size_matrix; j++) {
-			temp_matrix[j] = temp_matrix[j] * (1 - temp_matrix[j]);
-		}
-		temp.at(i) = temp_matrix;
-	}
-	return temp;
 }
 
 //Print biases
@@ -284,7 +231,7 @@ void Network::printWeights() {
 Matrix Network::sigmoid( Matrix& mtx) {
 	Matrix temp{ 1, mtx.getSize() };
 	for (size_t i{ 0 }; i < mtx.getSize(); i++)
-		temp[i] = 1.0 / (1.0 + exp(mtx[i] * -1));
+		temp[i] = 1.0f / (1.0f + exp(-1.0f*mtx[i]));
 	return temp;
 }
 
@@ -292,7 +239,7 @@ Matrix Network::sigmoid( Matrix& mtx) {
 Matrix Network::sigmoid_prime(Matrix& mtx) {
 	Matrix temp{ sigmoid(mtx) };
 	for (size_t i{ 0 }; i < mtx.getSize(); i++)
-		temp[i] = temp[i] * (1 - temp[i]);
+		temp[i] = temp[i] * (1.0f - temp[i]);
 	return temp;
 }
 

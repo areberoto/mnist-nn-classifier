@@ -22,13 +22,13 @@ public:
 	Matrix feedforward(Matrix a);
 	void SGD(int epochs, int mini_batch_size, float eta);
 	void updateMiniBatch(int mini_batch_index, float eta);
-	void backpropagation(int mini_batch_index, int index);
+	void backpropagation(const Matrix& x, const Matrix& y);
 	void printBiases();
 	void printWeights();
 	void evaluate();
-	int argmax(Matrix& mtx);
-	Matrix sigmoid(Matrix& mtx);
-	Matrix sigmoid_prime(Matrix& mtx);
+	int argmax(Matrix& mtx) const;
+	Matrix sigmoid( Matrix& mtx);
+	Matrix sigmoid_prime( Matrix& mtx);
 	Matrix cost_derivative(Matrix output_activations, Matrix y);
 };
 

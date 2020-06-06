@@ -31,27 +31,10 @@ MNIST_DS::MNIST_DS(bool flag)
 MNIST_DS::MNIST_DS(const MNIST_DS& data) 
     : train{ data.train }, n{ data.n }, m{ data.m }, magic_number{ data.magic_number }, number_of_items{ data.number_of_items }, mini_batch_size{ data.mini_batch_size }{
 
-    //image_dat_set = vector<Matrix>(number_of_items);
-    //label_dat_set = vector<Matrix>(number_of_items);
-    //mini_batch_imag = vector<vector<Matrix>>(number_of_items / mini_batch_size, vector<Matrix>(mini_batch_size));
-    //mini_batch_label = vector<vector<Matrix>>(number_of_items / mini_batch_size, vector<Matrix>(mini_batch_size));
-
     image_dat_set = data.image_dat_set;
     label_dat_set = data.label_dat_set;
     mini_batch_imag = data.mini_batch_imag;
     mini_batch_label = data.mini_batch_label;
-
-    //for (size_t i{ 0 }; i < number_of_items; i++) {
-    //    image_dat_set.at(i) = data.image_dat_set.at(i);
-    //    label_dat_set.at(i) = data.label_dat_set.at(i);
-    //}
-
-    //for (size_t i{ 0 }; i < number_of_items / mini_batch_size; i++) {
-    //    for (size_t j{ 0 }; j < mini_batch_size; j++) {
-    //        mini_batch_imag.at(i).at(j) = data.mini_batch_imag.at(i).at(j);
-    //        mini_batch_label.at(i).at(j) = data.mini_batch_label.at(i).at(j);
-    //    }
-    //}
 }
 
 //Load data
@@ -69,74 +52,70 @@ void MNIST_DS::load() {
     }
 
     //Read images
-    ifstream inFile{ nameImagesFile, ios::in | ios::binary | ios::ate };
+    ifstream file_imag{ nameImagesFile, ios::in | ios::binary | ios::ate };
 
-    if (!inFile) {
+    if (!file_imag) {
         cerr << "Error trying to open the file!\n" << endl;
         exit(1);
     }
 
-    ifstream::pos_type size = inFile.tellg();
-    inFile.seekg(0, ios::beg);
+    ifstream::pos_type size = file_imag.tellg();
+    file_imag.seekg(0, ios::beg);
 
-    inFile.read(reinterpret_cast<char*>(&magic_number), sizeof(int));
+    file_imag.read(reinterpret_cast<char*>(&magic_number), sizeof(int));
     magic_number = reverseInt(magic_number);
-    inFile.read(reinterpret_cast<char*>(&number_of_items), sizeof(int));
+    file_imag.read(reinterpret_cast<char*>(&number_of_items), sizeof(int));
     number_of_items = reverseInt(number_of_items);
-    inFile.read(reinterpret_cast<char*>(&n), sizeof(int));
+    file_imag.read(reinterpret_cast<char*>(&n), sizeof(int));
     n = reverseInt(n);
-    inFile.read(reinterpret_cast<char*>(&m), sizeof(int));
+    file_imag.read(reinterpret_cast<char*>(&m), sizeof(int));
     m = reverseInt(m);
 
     unsigned char pixel{ 0 };
-    //Matrix image{ n, m };
-    Matrix image{ 1, n * m };
-    //image_dat_set = vector<Matrix>(number_of_items);
+    Matrix image{ n * m, 1 };
 
-    cout << "Loading data set of " << ((train) ? "training" : "test") << " images..." << endl;
+    cout << "\nLoading data set of " << ((train) ? "training" : "test") << " images... ";
     for (size_t i{ 0 }; i < number_of_items; i++) {
         for (size_t j{ 0 }; j < n * m; j++) {
-            inFile.read(reinterpret_cast<char*>(&pixel), sizeof(unsigned char));
-            image[j] = pixel;
+            file_imag.read(reinterpret_cast<char*>(&pixel), sizeof(unsigned char));
+            image[j] = static_cast<float>(pixel);
         }
         image_dat_set.push_back(image);
     }
   
-
-    cout << "Finished loading data set of " << ((train) ? "training" : "test") << " images..." << endl;
-    inFile.close();
+    cout << "DONE!" << endl;
+    file_imag.close();
 
     //Read labels
-    ifstream inLabels{ nameLabelsFile, ios::in | ios::binary | ios::ate };
+    ifstream file_labels{ nameLabelsFile, ios::in | ios::binary | ios::ate };
 
-    if (!inLabels) {
+    if (!file_labels) {
         cerr << "Error trying to open the file!\n" << endl;
         exit(1);
     }
 
-    size = inLabels.tellg();
-    inLabels.seekg(0, ios::beg);
+    size = file_labels.tellg();
+    file_labels.seekg(0, ios::beg);
 
-    inLabels.read(reinterpret_cast<char*>(&magic_number), sizeof(int));
+    file_labels.read(reinterpret_cast<char*>(&magic_number), sizeof(int));
     magic_number = reverseInt(magic_number);
-    inLabels.read(reinterpret_cast<char*>(&number_of_items), sizeof(int));
+    file_labels.read(reinterpret_cast<char*>(&number_of_items), sizeof(int));
     number_of_items = reverseInt(number_of_items);
 
     unsigned char label{ 0 };
-    Matrix temp{ 1, 10 };
-    //label_dat_set = new unsigned char[number_of_items];
+    Matrix temp{ 10, 1 };
 
-    cout << "\nLoading data set of " << ((train) ? "training" : "test") << " labels..." << endl;
+    cout << "Loading data set of " << ((train) ? "training" : "test") << " labels... ";
     for (size_t i{ 0 }; i < number_of_items; i++) {
-        inLabels.read(reinterpret_cast<char*>(&label), sizeof(unsigned char));
+        file_labels.read(reinterpret_cast<char*>(&label), sizeof(unsigned char));
 
         for (size_t j{ 0 }; j < 10; j++)
-            temp[j] = (j == static_cast<int>(label)) ? 1 : 0;
+            temp[j] = (j == static_cast<int>(label)) ? 1.0f : 0.0f;
         label_dat_set.push_back(temp);
     }
 
-    cout << "Finished loading data set of " << ((train) ? "training" : "test") << " labels..." << endl;
-    inLabels.close();
+    cout << "DONE!" << endl;
+    file_labels.close();
 }
 
 //Convert raw bytes to int
@@ -200,20 +179,6 @@ void MNIST_DS::mini_batches(int n) {
         }
         index += mini_batch_size;
     }
-
-    //vector<vector<Matrix>> temp_images = vector<vector<Matrix>>(number_of_items / mini_batch_size, vector<Matrix>(mini_batch_size));
-    //vector<vector<Matrix>> temp_labels = vector<vector<Matrix>>(number_of_items / mini_batch_size, vector<Matrix>(mini_batch_size));
-
-    //for (size_t i{ 0 }; i < number_of_items / mini_batch_size; i++) {
-    //    for (int j{ index }; j < index + mini_batch_size; j++) {
-    //        temp_images.at(i).at(j % mini_batch_size) = image_dat_set.at(j);
-    //        temp_labels.at(i).at(j % mini_batch_size) = label_dat_set.at(j);
-    //    }
-    //    index += mini_batch_size;
-    //}
-
-    //mini_batch_imag = temp_images;
-    //mini_batch_label = temp_labels;
 }
 
 int MNIST_DS::get_mini_batch_size() {

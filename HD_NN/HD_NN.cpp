@@ -17,9 +17,13 @@ int main()
     cout << "\tSHALLOW NEURAL NETWORK FOR HANDWRITTEN DIGITS RECOGNITION" << endl;
     int* sizes = new int[3] {784, 30, 10};
 
-    Network NN{ sizes };   
-    cout << "\nTraining..." << endl;
-    NN.SGD(30, 100, 3.0f);
+    //Network NN{ sizes };   
+    //cout << "\nTraining..." << endl;
+    //NN.SGD(30, 100, 3.0f);
+
+    Network classifier{ sizes };
+    classifier.loadWeightsBiases();
+    classifier.evaluate();
 
     return 0;
 }

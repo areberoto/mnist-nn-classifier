@@ -3,12 +3,19 @@
 #include <random>
 #include <iomanip>
 #include <cstring>
+#include <string>
 #include <cmath>
+#include <fstream>
 #include "Matrix.h"
 
 using std::cin;
 using std::endl;
 using std::cout;
+using std::cerr;
+using std::string;
+using std::ofstream;
+using std::ifstream;
+using std::ios;
 
 //Constructor
 Matrix::Matrix()
@@ -36,14 +43,11 @@ Matrix::Matrix(int rows, int columns)
 //Copy constructor using deep copy because of raw pointer
 Matrix::Matrix(const Matrix& mtx)
 	: Matrix() {
-
 	matrix = new float[mtx.n * mtx.m];
 	if (NULL != matrix) {
 		n = mtx.n;
 		m = mtx.m;
 		memcpy(matrix, mtx.matrix, n * m * sizeof(float));
-		/*for (size_t i{ 0 }; i < n * m; i++)
-			matrix[i] = mtx.matrix[i];*/
 	}
 	else
 		cout << "\tERROR - DEEP COPY FAILED!" << endl;
@@ -190,8 +194,6 @@ std::ostream& operator<<(std::ostream& os, const Matrix& mtx) {
 //Set all values to zero
 void Matrix::zeros() {
 	memset(matrix, 0.0f, n * m * sizeof(float));
-	/*for (size_t i{ 0 }; i < m * n; i++)
-		matrix[i] = 0.0f;*/
 }
 
 int Matrix::getSize() const {
@@ -204,4 +206,47 @@ int Matrix::getRows() {
 
 int Matrix::getColumns() {
 	return m;
+}
+
+//Write to binary file
+void Matrix::saveMatrix(string name) {
+	string nameFile{ name + ".dat" };
+	ofstream outFile{ nameFile, ios::out | ios::binary };
+
+	if (!outFile) {
+		cerr << "Error trying to open the file!\n" << endl;
+		exit(1);
+	}
+
+	outFile.write(reinterpret_cast<const char*>(&n), sizeof(int));
+	outFile.write(reinterpret_cast<const char*>(&m), sizeof(int));
+	outFile.write(reinterpret_cast<const char*>(matrix), n * m * sizeof(float));
+	outFile.close();
+}
+
+//Read from binary file
+void Matrix::readMatrix(string name) {
+	string nameFile{ name + ".dat" };
+	ifstream inFile{ nameFile, ios::in | ios::binary };
+
+	if (!inFile) {
+		cerr << "Error trying to open the file!\n" << endl;
+		exit(1);
+	}
+
+	inFile.read(reinterpret_cast<char*>(&n), sizeof(int));
+	inFile.read(reinterpret_cast<char*>(&m), sizeof(int));
+
+	delete[] matrix;
+	matrix = new float[n * m];
+
+	if (matrix != NULL) {
+		inFile.read(reinterpret_cast<char*>(matrix), n * m * sizeof(float));
+		inFile.close();
+	}
+	else {
+		cerr << "Error allocating dynamic memory!\n" << endl;
+		inFile.close();
+		exit(1);
+	}
 }

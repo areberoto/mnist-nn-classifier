@@ -12,7 +12,7 @@ using std::vector;
 
 //Constructor
 Network::Network(int* size_layers) 
-	:num_layers{ 3 }, biases{ nullptr }, weights{ nullptr }, nabla_b{ nullptr },
+	:num_layers{ 3 }, performance{ 0 }, biases{ nullptr }, weights{ nullptr }, nabla_b{ nullptr },
 	nabla_w{ nullptr }, delta_nabla_b{ nullptr }, delta_nabla_w{ nullptr }, training_data{ true }, test{ false }{
 
 	biases = new Matrix[2];
@@ -76,8 +76,7 @@ void Network::SGD( int epochs, int mini_batch_size, float eta) {
 		training_data.shuffle();
 		training_data.mini_batches(mini_batch_size);
 
-		for (size_t j{ 0 }; j < 100; j++)
-		//for (size_t j{ 0 }; j < training_data.get_number_items() / mini_batch_size; j++) {
+		for (size_t j{ 0 }; j < 200; j++)
 			updateMiniBatch(j, eta);
 
 		cout << "Epoch [" << i + 1 << "] complete." << endl;
@@ -98,6 +97,14 @@ void Network::evaluate() {
 			count++;
 	}
 	cout << count << "/" << test.get_number_items() << endl;
+
+	if (count > performance) {
+		performance = count;
+		weights[0].saveMatrix("weights_0");
+		weights[1].saveMatrix("weights_1");
+		biases[0].saveMatrix("biases_0");
+		biases[1].saveMatrix("biases_1");
+	}
 }
 
 int Network::argmax(Matrix& mtx) const{
@@ -207,4 +214,11 @@ Matrix Network::cost_derivative(Matrix output_activations, Matrix y) {
 	for (size_t i{ 0 }; i < output_activations.getSize(); i++)
 		temp[i] = output_activations[i] - y[i];
 	return temp;
+}
+
+void Network::loadWeightsBiases() {
+	weights[0].readMatrix("weights_0");
+	weights[1].readMatrix("weights_1");
+	biases[0].readMatrix("biases_0");
+	biases[1].readMatrix("biases_1");
 }

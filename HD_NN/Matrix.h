@@ -23,5 +23,7 @@ public:
 	int getSize() const;
 	int getRows();
 	int getColumns();
-	void zeros();	
+	void zeros();
+	void saveMatrix(std::string name);
+	void readMatrix(std::string name);
 };

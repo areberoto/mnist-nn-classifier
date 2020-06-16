@@ -5,6 +5,7 @@
 
 class Network{
 	int num_layers;
+	int performance;
 	Matrix* biases;
 	Matrix* weights;
 	Matrix* nabla_b;
@@ -26,6 +27,7 @@ public:
 	void printWeights();
 	void evaluate();
 	int argmax(Matrix& mtx) const;
+	void loadWeightsBiases();
 	Matrix sigmoid( Matrix& mtx);
 	Matrix sigmoid_prime( Matrix& mtx);
 	Matrix cost_derivative(Matrix output_activations, Matrix y);

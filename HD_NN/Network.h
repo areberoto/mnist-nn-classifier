@@ -5,7 +5,6 @@
 
 class Network{
 	int num_layers;
-	int* sizes;
 	Matrix* biases;
 	Matrix* weights;
 	Matrix* nabla_b;

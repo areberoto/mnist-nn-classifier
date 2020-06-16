@@ -15,46 +15,11 @@ using std::endl;
 int main()
 {
     cout << "\tSHALLOW NEURAL NETWORK FOR HANDWRITTEN DIGITS RECOGNITION" << endl;
-    const int n = 3;
-    int* sizes = new int[n] {784, 30, 10};
+    int* sizes = new int[3] {784, 30, 10};
 
     Network NN{ sizes };   
-    //NN.printBiases();
-    //NN.printWeights();
-    //Matrix input{ 1, 2 };
-    //cout << NN.feedforward(input) << endl;
     cout << "\nTraining..." << endl;
-    NN.SGD(30, 10, 3.0f);
-    //NN.evaluate();
-
-
-    //int* sizes = new int[n] {2, 3, 1};
-    //Network NN{ sizes };
-    //Matrix input{ inputImage.getImage(0) };
-
-    //Matrix input{ 1, 2 };
-
-    //cout << "BIASES:" << endl;
-    //NN.printBiases();
-    //cout << "WEIGHTS:" << endl;
-    //NN.printWeights();   
-
-    //cout << "Input: " << input << endl;
-    //cout << "Output: " << NN.feedforward(input);
-
-    //MNIST_DS test{ true };
-
-    //for (size_t i{ 0 }; i < 10; i++) {
-    //    cout << test.getImage(i+10) << endl;
-    //    cout << test.getLabel(i+10) << endl;
-    //}
-    //cout << "\n--------------------------------------------------------------------" << endl;
-    //test.mini_batches(10);
-    //for (size_t i{ 0 }; i < 10; i++) {
-    //    cout << test.getMiniBatchImages(1).at(i) << endl;
-    //    cout << test.getMiniBatchLabels(1).at(i) << endl;
-    //}
-        
+    NN.SGD(30, 100, 3.0f);
 
     return 0;
 }

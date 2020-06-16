@@ -12,10 +12,9 @@ using std::vector;
 
 //Constructor
 Network::Network(int* size_layers) 
-	:num_layers{ 3 }, sizes{ nullptr }, biases{ nullptr }, weights{ nullptr }, nabla_b{ nullptr },
+	:num_layers{ 3 }, biases{ nullptr }, weights{ nullptr }, nabla_b{ nullptr },
 	nabla_w{ nullptr }, delta_nabla_b{ nullptr }, delta_nabla_w{ nullptr }, training_data{ true }, test{ false }{
 
-	sizes = new int[num_layers];
 	biases = new Matrix[2];
 	weights = new Matrix[2];
 	nabla_b = new Matrix[2];
@@ -23,29 +22,12 @@ Network::Network(int* size_layers)
 	delta_nabla_b = new Matrix[2];
 	delta_nabla_w = new Matrix[2];
 
-	if (NULL != sizes && NULL != biases && NULL != weights && NULL != nabla_b && NULL != nabla_w
+	if (NULL != biases && NULL != weights && NULL != nabla_b && NULL != nabla_w
 		&& NULL != delta_nabla_b && NULL != delta_nabla_w) {
 
-		//Initialize sizes
-		for (size_t i{ 0 }; i < num_layers; i++)
-			sizes[i] = size_layers[i];
-
-		//Extract sizes of matrices
-		Matrix matrix_sizes{ 2, 2 };
-		for (size_t i{ 0 }; i < 2; i++) {
-			for (size_t j{ 0 }; j < 2; j++) {
-				//Get sizes from [:-1]
-				if (i == 0)
-					matrix_sizes[i * 2 + j] = sizes[j];
-				//Get sizes from [1:]
-				else
-					matrix_sizes[i * 2 + j] = sizes[j + 1];
-			}
-		}
-
 		//Initialize weights
-		Matrix weights_1{ static_cast<int>(matrix_sizes[1]), static_cast<int>(matrix_sizes[0]) };
-		Matrix weights_2{ static_cast<int>(matrix_sizes[3]), static_cast<int>(matrix_sizes[2]) };
+		Matrix weights_1{ size_layers[1], size_layers[0] };
+		Matrix weights_2{ size_layers[2], size_layers[1] };
 		weights[0] = weights_1;
 		weights[1] = weights_2;
 
@@ -56,8 +38,8 @@ Network::Network(int* size_layers)
 		delta_nabla_w[1] = weights_2;
 
 		//Initialize biases
-		Matrix biases_1{ static_cast<int>(matrix_sizes[2]), 1 };
-		Matrix biases_2{ static_cast<int>(matrix_sizes[3]), 1 };
+		Matrix biases_1{ size_layers[1], 1 };
+		Matrix biases_2{ size_layers[2], 1 };
 		biases[0] = biases_1;
 		biases[1] = biases_2;
 
@@ -73,7 +55,6 @@ Network::Network(int* size_layers)
 Network::~Network() {
 	delete[] weights;
 	delete[] biases;
-	delete[] sizes;
 	delete[] nabla_b;
 	delete[] nabla_w;
 	delete[] delta_nabla_b;
@@ -95,7 +76,7 @@ void Network::SGD( int epochs, int mini_batch_size, float eta) {
 		training_data.shuffle();
 		training_data.mini_batches(mini_batch_size);
 
-		for (size_t j{ 0 }; j < 1000; j++)
+		for (size_t j{ 0 }; j < 100; j++)
 		//for (size_t j{ 0 }; j < training_data.get_number_items() / mini_batch_size; j++) {
 			updateMiniBatch(j, eta);
 
@@ -140,13 +121,13 @@ void Network::updateMiniBatch(int mini_batch_index, float eta) {
 	
 	for (size_t i{ 0 }; i < training_data.get_mini_batch_size(); i++) {
 		backpropagation(training_data.getMiniBatchImages(mini_batch_index).at(i), training_data.getMiniBatchLabels(mini_batch_index).at(i));
-		for (size_t j{ 0 }; j < num_layers - 1; j++) {
+		for (size_t j{ 0 }; j < 2; j++) {
 			nabla_b[j] = nabla_b[j] + delta_nabla_b[j];
 			nabla_w[j] = nabla_w[j] + delta_nabla_w[j];
 		}
 	}
 		
-	for (size_t i{ 0 }; i < num_layers - 1; i++) {
+	for (size_t i{ 0 }; i < 2; i++) {
 		weights[i] = weights[i] - (nabla_w[i] * (eta / training_data.get_mini_batch_size()));
 		biases[i] = biases[i] - (nabla_b[i] * (eta / training_data.get_mini_batch_size()));
 	}
@@ -154,15 +135,19 @@ void Network::updateMiniBatch(int mini_batch_index, float eta) {
 
 //Backpropagation
 void Network::backpropagation(const Matrix& x, const Matrix& y) {
-	
+	delta_nabla_b[0].zeros();
+	delta_nabla_b[1].zeros();
+	delta_nabla_w[0].zeros();
+	delta_nabla_w[1].zeros();
+
 	//feedforward
 	Matrix activation{ x };
 	vector<Matrix> activations;
 	activations.push_back(x); //list to store all the activations, layer by layer
 	vector<Matrix> zs; //list to store all the z vectors, layer by layer
-	Matrix z;
+	Matrix z{};
 
-	for (size_t i{ 0 }; i < num_layers - 1; i++) {
+	for (size_t i{ 0 }; i < 2; i++) {
 		z = (weights[i] * activation) + biases[i];
 		zs.push_back(z);
 		activation = sigmoid(z);
@@ -184,7 +169,7 @@ void Network::backpropagation(const Matrix& x, const Matrix& y) {
 
 //Print biases
 void Network::printBiases() {
-	for (size_t i{ 0 }; i < num_layers - 1; i++) {
+	for (size_t i{ 0 }; i < 2; i++) {
 		cout << "Biases " << i + 1 << ": " << endl;
 		cout << biases[i] << endl;
 	}
@@ -193,7 +178,7 @@ void Network::printBiases() {
 
 //Print weights
 void Network::printWeights() {
-	for (size_t i{ 0 }; i < num_layers - 1; i++) {
+	for (size_t i{ 0 }; i < 2; i++) {
 		cout << "Weights " << i + 1 << ": " << endl;
 		cout << weights[i] << endl;
 	}

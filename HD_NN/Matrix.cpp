@@ -2,6 +2,7 @@
 #include <string>
 #include <random>
 #include <iomanip>
+#include <cstring>
 #include <cmath>
 #include "Matrix.h"
 
@@ -40,8 +41,9 @@ Matrix::Matrix(const Matrix& mtx)
 	if (NULL != matrix) {
 		n = mtx.n;
 		m = mtx.m;
-		for (size_t i{ 0 }; i < n * m; i++)
-			matrix[i] = mtx.matrix[i];
+		memcpy(matrix, mtx.matrix, n * m * sizeof(float));
+		/*for (size_t i{ 0 }; i < n * m; i++)
+			matrix[i] = mtx.matrix[i];*/
 	}
 	else
 		cout << "\tERROR - DEEP COPY FAILED!" << endl;
@@ -150,8 +152,9 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
 		if (NULL != matrix) {
 			n = rhs.n;
 			m = rhs.m;
-			for (size_t i{ 0 }; i < n * m; i++)
-				matrix[i] = rhs.matrix[i];
+			memcpy(matrix, rhs.matrix, n * m * sizeof(float));
+			/*for (size_t i{ 0 }; i < n * m; i++)
+				matrix[i] = rhs.matrix[i];*/
 			return *this;
 		}
 	}
@@ -186,8 +189,9 @@ std::ostream& operator<<(std::ostream& os, const Matrix& mtx) {
 
 //Set all values to zero
 void Matrix::zeros() {
-	for (size_t i{ 0 }; i < m * n; i++)
-		matrix[i] = 0.0f;
+	memset(matrix, 0.0f, n * m * sizeof(float));
+	/*for (size_t i{ 0 }; i < m * n; i++)
+		matrix[i] = 0.0f;*/
 }
 
 int Matrix::getSize() const {

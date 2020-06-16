@@ -1,16 +1,25 @@
-﻿  Network.cpp
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(81,26): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(93,39): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(95,27): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(107,6): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(108,15): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(109,13): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(192,9): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(192,43): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(200,9): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(200,19): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(200,37): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(208,9): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(208,33): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\Network.cpp(208,40): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+﻿  HD_NN.cpp
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\HD_NN.cpp(45,51): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\HD_NN.cpp(46,51): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\HD_NN.cpp(53,79): warning C4267: 'argument': conversion from 'size_t' to '_Tp', possible loss of data
+          with
+          [
+              _Tp=int
+          ]
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\HD_NN.cpp(53,106): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\HD_NN.cpp(53,123): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\HD_NN.cpp(53,140): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\HD_NN.cpp(57,90): warning C4267: 'argument': conversion from 'size_t' to '_Tp', possible loss of data
+          with
+          [
+              _Tp=int
+          ]
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\HD_NN.cpp(59,90): warning C4267: 'argument': conversion from 'size_t' to '_Tp', possible loss of data
+          with
+          [
+              _Tp=int
+          ]
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\HD_NN.cpp(73,12): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\HD_NN.cpp(74,24): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\HD_NN\HD_NN.cpp(75,22): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
   HD_NN.vcxproj -> D:\Users\Alberto\Documents\Programming Languages\C++\Neural Networks\Handwritten Digits\HD_NN\x64\Debug\HD_NN.exe

@@ -1,5 +1,5 @@
 #include "Matrix.h"
-#include "MNIST_DS.h"
+#include "MNIST.h"
 #pragma once
 
 
@@ -12,14 +12,14 @@ class Network{
 	Matrix* nabla_w;
 	Matrix* delta_nabla_b;
 	Matrix* delta_nabla_w;
-	MNIST_DS training_data;
-	MNIST_DS test;
+	MNIST training_data;
+	MNIST test;
 
 public:
 	Network(int* sizes);
 	~Network();
 
-	Matrix feedforward(Matrix a);
+	Matrix feedforward(const Matrix& a);
 	void SGD(int epochs, int mini_batch_size, float eta);
 	void updateMiniBatch(int mini_batch_index, float eta);
 	void backpropagation(const Matrix& x, const Matrix& y);

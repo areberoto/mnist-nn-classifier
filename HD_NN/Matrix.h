@@ -9,6 +9,7 @@ public:
 	Matrix();
 	Matrix(int, int);
 	Matrix(const Matrix& mtx);
+	Matrix(Matrix&& mtx);
 	~Matrix();
 	Matrix operator+(const Matrix& mtx);
 	Matrix operator-(const Matrix& mtx);

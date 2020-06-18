@@ -53,6 +53,12 @@ Matrix::Matrix(const Matrix& mtx)
 		cout << "\tERROR - DEEP COPY FAILED!" << endl;
 }
 
+//Move constructor
+Matrix::Matrix(Matrix&& mtx) 
+	: matrix{ mtx.matrix }, n{ mtx.n }, m{ mtx.m }{
+	mtx.matrix = nullptr;
+}
+
 //Destructor
 Matrix::~Matrix() {
 	if (n != 0)

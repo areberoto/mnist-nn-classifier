@@ -24,7 +24,7 @@
     <ClCompile Include="Network.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MNIST_DS.cpp">
+    <ClCompile Include="MNIST.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClInclude Include="Network.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MNIST_DS.h">
+    <ClInclude Include="MNIST.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -8,7 +8,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include "Network.h"
-#include "MNIST_DS.h"
+#include "MNIST.h"
 #include "Matrix.h"
 
 using std::cout;
@@ -26,13 +26,15 @@ int main()
     int* sizes = new int[3] {784, 30, 10};
 
     //Network NN{ sizes };   
+    //NN.loadWeightsBiases();
     //cout << "\nTraining..." << endl;
-    //NN.SGD(30, 100, 3.0f);
+    //NN.SGD(30, 250, 3.0f);
 
     Network classifier{ sizes };
     classifier.loadWeightsBiases();
+    classifier.evaluate();
 
-    MNIST_DS test{ false };
+    MNIST test{ "test" };
     test.shuffle();
 
     Matrix ima{};

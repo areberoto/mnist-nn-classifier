@@ -2,6 +2,9 @@
 #include <cmath>
 #include <iomanip>
 #include <string>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 #include "Network.h"
 #include "MNIST.h"
 
@@ -9,6 +12,8 @@ using std::cin;
 using std::cout;
 using std::endl;
 using std::string;
+
+using namespace cv;
 
 //Constructor
 Network::Network(int* size_layers) 
@@ -87,8 +92,8 @@ void Network::SGD( int epochs, int mini_batch_size, float eta) {
 
 void Network::evaluate() {
 	Matrix result{};
-	int index{ 0 }, y{ 0 };
-	int count{ 0 };
+	int index{ 0 }, y{ 0 }, count{ 0 };
+
 	for (size_t i{ 0 }; i < test.get_number_items(); i++) {
 		result = feedforward(test.getImage(i));
 		index = argmax(result);
@@ -170,7 +175,6 @@ void Network::backpropagation(const Matrix& x, const Matrix& y) {
 
 	//Backward pass
 	Matrix delta = cost_derivative(activations[2], y) ^ sigmoid_prime(zs[1]);
-
 	delta_nabla_b[1] = delta;
 	delta_nabla_w[1] = delta * ~activations[1];
 
@@ -231,4 +235,44 @@ void Network::loadWeightsBiases() {
 	weights[1].readMatrix("weights_1");
 	biases[0].readMatrix("biases_0");
 	biases[1].readMatrix("biases_1");
+}
+
+void Network::classify() {
+	int correct{ 0 };
+	loadWeightsBiases();
+	test.shuffle();
+
+	Matrix ima{};
+	Matrix lab{};
+	Matrix result{};
+	int num_images{ 30 };
+
+	Mat image = Mat::zeros(28 * num_images + 60, 28 * num_images, CV_8UC3);
+	for (size_t k{ 0 }; k < num_images / 2; k++) {
+		for (size_t l{ 0 }; l < num_images; l++) {
+			ima = test.getImage(k * num_images + l);
+			lab = test.getLabel(k * num_images + l);
+			int y = argmax(lab);
+			result = feedforward(ima);
+			int r = argmax(result);
+
+			for (size_t i{ 0 }; i < 28; i++) {
+				for (size_t j{ 0 }; j < 28; j++)
+					circle(image, Point(j + (l * 28), i + (2 * k * num_images)), 0, Scalar(ima[i * 28 + j], ima[i * 28 + j], ima[i * 28 + j]), 0);
+			}
+
+			if (y == r) {
+				putText(image, std::to_string(r), Point(l * 28, 56 + (2 * k * num_images)), FONT_HERSHEY_DUPLEX, 1.0, Scalar(0, 255, 0), 1);
+				correct++;
+			}
+			else
+				putText(image, std::to_string(r), Point(l * 28, 56 + (2 * k * num_images)), FONT_HERSHEY_DUPLEX, 1.0, Scalar(0, 0, 255), 1);
+		}
+	}
+
+	cout << "Correctly classified: " << correct << "/450" << endl;
+	cout << (correct * 100.0 / 450.0) << "% of digits were correctly classified!" << endl;
+
+	imshow("Display Window", image);
+	waitKey(0);
 }

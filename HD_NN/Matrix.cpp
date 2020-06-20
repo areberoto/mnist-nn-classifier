@@ -163,8 +163,6 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
 			n = rhs.n;
 			m = rhs.m;
 			memcpy(matrix, rhs.matrix, n * m * sizeof(float));
-			/*for (size_t i{ 0 }; i < n * m; i++)
-				matrix[i] = rhs.matrix[i];*/
 			return *this;
 		}
 	}

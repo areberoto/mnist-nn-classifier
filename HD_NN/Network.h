@@ -31,5 +31,6 @@ public:
 	Matrix sigmoid( Matrix& mtx);
 	Matrix sigmoid_prime( Matrix& mtx);
 	Matrix cost_derivative(Matrix output_activations, Matrix y);
+	void classify();
 };
 

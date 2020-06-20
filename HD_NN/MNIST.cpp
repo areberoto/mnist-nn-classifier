@@ -195,8 +195,8 @@ void MNIST::shuffle() {
             image_dat_set[i] = temp_image[i];
             label_dat_set[i] = temp_label[i];
         }
-        //memcpy(image_dat_set, temp_image, number_of_items * sizeof(Matrix));
-        //memcpy(label_dat_set, temp_label, number_of_items * sizeof(Matrix));
+        //memmove(image_dat_set, temp_image, number_of_items * sizeof(Matrix));
+        //memmove(label_dat_set, temp_label, number_of_items * sizeof(Matrix));
 
         delete[] temp_image;
         delete[] temp_label;

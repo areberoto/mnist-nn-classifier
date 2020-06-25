@@ -37,7 +37,7 @@ int main()
             case 2: {
                 int epochs{ 0 }, mini_batch{ 0 };
                 float eta{ 0.0 };
-                //NN.loadWeightsBiases();
+                //classifier.loadWeightsBiases();
                 cout << "\nNumber of epochs: ";
                 cin >> epochs;
                 cout << "Mini batch size: ";;
@@ -45,7 +45,7 @@ int main()
                 cout << "Learning rate: ";
                 cin >> eta;
                 cout << "\nTraining..." << endl;
-                //classifier.SGD(epochs, mini_batch, eta);
+                classifier.SGD(epochs, mini_batch, eta);
                 break;
             }
             case 3:

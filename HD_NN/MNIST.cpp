@@ -154,6 +154,7 @@ int MNIST::reverseInt(int i) {
     ch2 = (i >> 8) & 255;
     ch3 = (i >> 16) & 255;
     ch4 = (i >> 24) & 255;
+
     return((int)ch1 << 24) + ((int)ch2 << 16) + ((int)ch3 << 8) + ch4;
 }
 
@@ -194,9 +195,7 @@ void MNIST::shuffle() {
         for (size_t i{ 0 }; i < number_of_items; i++) {
             image_dat_set[i] = temp_image[i];
             label_dat_set[i] = temp_label[i];
-        }
-        //memmove(image_dat_set, temp_image, number_of_items * sizeof(Matrix));
-        //memmove(label_dat_set, temp_label, number_of_items * sizeof(Matrix));
+        }   
 
         delete[] temp_image;
         delete[] temp_label;

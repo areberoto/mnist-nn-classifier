@@ -53,12 +53,6 @@ Matrix::Matrix(const Matrix& mtx)
 		cout << "\tERROR - DEEP COPY FAILED!" << endl;
 }
 
-//Move constructor
-Matrix::Matrix(Matrix&& mtx) 
-	: matrix{ mtx.matrix }, n{ mtx.n }, m{ mtx.m }{
-	mtx.matrix = nullptr;
-}
-
 //Destructor
 Matrix::~Matrix() {
 	if (n != 0)
@@ -241,7 +235,8 @@ void Matrix::readMatrix(string name) {
 	inFile.read(reinterpret_cast<char*>(&n), sizeof(int));
 	inFile.read(reinterpret_cast<char*>(&m), sizeof(int));
 
-	delete[] matrix;
+	if(matrix != NULL)
+		delete[] matrix;
 	matrix = new float[n * m];
 
 	if (matrix != NULL) {

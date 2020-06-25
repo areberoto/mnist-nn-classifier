@@ -69,10 +69,12 @@ Network::~Network() {
 //Feedforward
 Matrix Network::feedforward(const Matrix& a) {
 	Matrix output{a};
-	for (size_t i{ 0 }; i < 2; i++) {
-		output = weights[i] * output + biases[i];
-		output = sigmoid(output);
-	}	
+
+	output = weights[0] * output + biases[0];
+	output = sigmoid(output);
+	output = weights[1] * output + biases[1];
+	output = sigmoid(output);
+
 	return output;
 }
 
@@ -82,7 +84,7 @@ void Network::SGD( int epochs, int mini_batch_size, float eta) {
 		training_data.shuffle();
 		training_data.mini_batches(mini_batch_size);
 
-		for (size_t j{ 0 }; j < 150; j++)
+		for (size_t j{ 0 }; j < training_data.get_number_items() / mini_batch_size; j++)
 			updateMiniBatch(j, eta);
 
 		cout << "Epoch [" << i + 1 << "] complete." << endl;
@@ -138,26 +140,24 @@ void Network::updateMiniBatch(int mini_batch_index, float eta) {
 		images = training_data.getMiniBatchImages(mini_batch_index);
 		labels = training_data.getMiniBatchLabels(mini_batch_index);
 		backpropagation(images[i], labels[i]);
-		for (size_t j{ 0 }; j < 2; j++) {
-			nabla_b[j] = nabla_b[j] + delta_nabla_b[j];
-			nabla_w[j] = nabla_w[j] + delta_nabla_w[j];
-		}
+
+		nabla_b[0] = nabla_b[0] + delta_nabla_b[0];
+		nabla_w[0] = nabla_w[0] + delta_nabla_w[0];
+		nabla_b[1] = nabla_b[1] + delta_nabla_b[1];
+		nabla_w[1] = nabla_w[1] + delta_nabla_w[1];
+
 		delete[] images;
 		delete[] labels;
 	}
-		
-	for (size_t i{ 0 }; i < 2; i++) {
-		weights[i] = weights[i] - (nabla_w[i] * (eta / training_data.get_mini_batch_size()));
-		biases[i] = biases[i] - (nabla_b[i] * (eta / training_data.get_mini_batch_size()));
-	}
+
+	weights[0] = weights[0] - (nabla_w[0] * (eta / training_data.get_mini_batch_size()));
+	biases[0]  = biases[0] - (nabla_b[0] * (eta / training_data.get_mini_batch_size()));
+	weights[1] = weights[1] - (nabla_w[1] * (eta / training_data.get_mini_batch_size()));
+	biases[1]  = biases[1] - (nabla_b[1] * (eta / training_data.get_mini_batch_size()));
 }
 
 //Backpropagation
 void Network::backpropagation(const Matrix& x, const Matrix& y) {
-	delta_nabla_b[0].zeros();
-	delta_nabla_b[1].zeros();
-	delta_nabla_w[0].zeros();
-	delta_nabla_w[1].zeros();
 
 	//feedforward
 	Matrix activation{ x };
@@ -166,12 +166,15 @@ void Network::backpropagation(const Matrix& x, const Matrix& y) {
 	Matrix* zs = new Matrix[2]; //list to store all the z vectors, layer by layer
 	Matrix z{};
 
-	for (size_t i{ 0 }; i < 2; i++) {
-		z = (weights[i] * activation) + biases[i];
-		zs[i] = z;
-		activation = sigmoid(z);
-		activations[i + 1] = activation;
-	}
+	z = (weights[0] * activation) + biases[0];
+	zs[0] = z;
+	activation = sigmoid(z);
+	activations[1] = activation;
+
+	z = (weights[1] * activation) + biases[1];
+	zs[1] = z;
+	activation = sigmoid(z);
+	activations[2] = activation;
 
 	//Backward pass
 	Matrix delta = cost_derivative(activations[2], y) ^ sigmoid_prime(zs[1]);
@@ -224,9 +227,7 @@ Matrix Network::sigmoid_prime( Matrix& mtx) {
 
 //Cost derivative
 Matrix Network::cost_derivative(Matrix output_activations, Matrix y) {
-	Matrix temp{output_activations.getRows(), output_activations.getColumns()};
-	for (size_t i{ 0 }; i < output_activations.getSize(); i++)
-		temp[i] = output_activations[i] - y[i];
+	Matrix temp{ output_activations - y };
 	return temp;
 }
 
@@ -241,6 +242,7 @@ void Network::classify() {
 	int correct{ 0 };
 	loadWeightsBiases();
 	test.shuffle();
+	//evaluate();
 
 	Matrix ima{};
 	Matrix lab{};

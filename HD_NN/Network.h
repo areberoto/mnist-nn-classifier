@@ -4,16 +4,16 @@
 
 
 class Network{
-	int num_layers;
-	int performance;
-	Matrix* biases;
-	Matrix* weights;
-	Matrix* nabla_b;
-	Matrix* nabla_w;
-	Matrix* delta_nabla_b;
-	Matrix* delta_nabla_w;
-	MNIST training_data;
-	MNIST test;
+	int num_layers;		//Layers (3)
+	int performance;	//Correctly classified
+	Matrix* biases;		//All biases
+	Matrix* weights;	//All weights
+	Matrix* nabla_b;	//Bias gradient
+	Matrix* nabla_w;	//weight gradient
+	Matrix* delta_nabla_b;	//BP bias delta
+	Matrix* delta_nabla_w;	//BP weight delta
+	MNIST training_data;	//MNIST training data
+	MNIST test;				//MNIST test data
 
 public:
 	Network(int* sizes);
@@ -26,11 +26,11 @@ public:
 	void printBiases();
 	void printWeights();
 	void evaluate();
+	void classify();
 	int argmax(Matrix& mtx) const;
 	void loadWeightsBiases();
 	Matrix sigmoid( Matrix& mtx);
 	Matrix sigmoid_prime( Matrix& mtx);
 	Matrix cost_derivative(Matrix output_activations, Matrix y);
-	void classify();
 };
 

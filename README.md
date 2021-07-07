@@ -1,0 +1,5 @@
+# Shallow Neural Network implemented in C++ for Handwritten Digits Classification
+
+Over the last decades machine learning has become very popular since new algorithms were developed and more complex implementations of neural networks became possible, opening a new world of possibilities and solutions. Nowdays it is very common to use tools and software that already have machine learning algorithms implemented, and people only need to know the necessary theory to acomplish systems that learn and do what they need. Still, when working with machine learning, it is very important to understand the basics and go deeper into the algorithms so students get a better understanding of these mathematical tools and later get more involved with AI without much trouble. This is why it was decided to implement a Shallow Neural Network from scratch in C++ that learns how to classify handwritten digits with 84.42% precision using the MNIST dataset. We did not use any machine learning library and everything was implemented in C++.
+
+![Diagram](https://user-images.githubusercontent.com/44409207/124809456-c19ce100-df25-11eb-9368-1da92592e3a4.png)

@@ -1,6 +1,6 @@
-/*  Handwritten Digits Neural Network implemented in C++
-    Author: Alberto Alvarez & Octavio Torres
-    Date:   26th June, 2020
+/*
+ *SPDX-License-Identifier: MIT License
+ *Copyright (c) 2020,2022 Alberto Alvarez
 */
 
 #include "matrix.h"

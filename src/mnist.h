@@ -1,7 +1,17 @@
-#include "matrix.h"
-#include <fstream>
-#include <string>
+/*
+ *SPDX-License-Identifier: MIT License
+ *Copyright (c) 2020,2022 Alberto Alvarez
+*/
+
 #pragma once
+#include "matrix.h"
+#include <algorithm>
+#include <cstring>
+#include <fstream>
+#include <iostream>
+#include <random>
+#include <string>
+#include <vector>
 
 using std::ifstream;
 using std::string;

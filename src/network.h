@@ -1,6 +1,19 @@
+/*
+ *SPDX-License-Identifier: MIT License
+ *Copyright (c) 2020,2022 Alberto Alvarez
+*/
+
+
+#pragma once
 #include "matrix.h"
 #include "mnist.h"
-#pragma once
+#include <cmath>
+#include <iomanip>
+#include <iostream>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+#include <string>
 
 class Network {
   int num_layers;        // Layers (3)

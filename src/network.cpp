@@ -1,12 +1,9 @@
+/*
+ *SPDX-License-Identifier: MIT License
+ *Copyright (c) 2020,2022 Alberto Alvarez
+*/
+
 #include "network.h"
-#include "mnist.h"
-#include <cmath>
-#include <iomanip>
-#include <iostream>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc.hpp>
-#include <string>
 
 using std::cin;
 using std::cout;

@@ -1,4 +1,16 @@
+/*
+ *SPDX-License-Identifier: MIT License
+ *Copyright (c) 2020,2022 Alberto Alvarez
+*/
+
 #pragma once
+#include <cmath>
+#include <cstring>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <random>
+#include <string>
 
 class Matrix {
   int n;         // number of rows

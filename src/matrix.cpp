@@ -1,11 +1,9 @@
+/*
+ *SPDX-License-Identifier: MIT License
+ *Copyright (c) 2020,2022 Alberto Alvarez
+*/
+
 #include "matrix.h"
-#include <cmath>
-#include <cstring>
-#include <fstream>
-#include <iomanip>
-#include <iostream>
-#include <random>
-#include <string>
 
 using std::cerr;
 using std::cin;

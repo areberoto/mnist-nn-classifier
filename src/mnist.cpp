@@ -1,3 +1,8 @@
+/*
+ *SPDX-License-Identifier: MIT License
+ *Copyright (c) 2020,2022 Alberto Alvarez
+*/
+
 #include "mnist.h"
 #include "matrix.h"
 #include <algorithm>

@@ -4,14 +4,6 @@
 */
 
 #include "mnist.h"
-#include "matrix.h"
-#include <algorithm>
-#include <cstring>
-#include <fstream>
-#include <iostream>
-#include <random>
-#include <string>
-#include <vector>
 
 using std::cerr;
 using std::cout;

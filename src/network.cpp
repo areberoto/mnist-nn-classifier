@@ -5,8 +5,8 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
-#include "Network.h"
-#include "MNIST.h"
+#include "network.h"
+#include "mnist.h"
 
 using std::cin;
 using std::cout;

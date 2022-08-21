@@ -1,6 +1,6 @@
 #include <fstream>
 #include <string>
-#include "Matrix.h"
+#include "matrix.h"
 #pragma once
 
 using std::string;

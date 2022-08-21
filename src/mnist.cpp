@@ -1,5 +1,5 @@
-#include "MNIST.h"
-#include "Matrix.h"
+#include "mnist.h"
+#include "matrix.h"
 #include <iostream>
 #include <string>
 #include <vector>

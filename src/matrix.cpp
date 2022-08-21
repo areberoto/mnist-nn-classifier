@@ -6,7 +6,7 @@
 #include <string>
 #include <cmath>
 #include <fstream>
-#include "Matrix.h"
+#include "matrix.h"
 
 using std::cin;
 using std::endl;

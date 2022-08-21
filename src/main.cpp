@@ -4,9 +4,9 @@
 */
 
 #include <iostream>
-#include "Network.h"
-#include "MNIST.h"
-#include "Matrix.h"
+#include "network.h"
+#include "mnist.h"
+#include "matrix.h"
 
 using std::cout;
 using std::cin;

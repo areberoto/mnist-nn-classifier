@@ -1,5 +1,5 @@
-#include "Matrix.h"
-#include "MNIST.h"
+#include "matrix.h"
+#include "mnist.h"
 #pragma once
 
 

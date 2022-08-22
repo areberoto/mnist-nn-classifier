@@ -24,11 +24,11 @@ MNIST::MNIST(string data)
   string nameLabelsFile{};
 
   if (file == "train") {
-    nameImagesFile = "train-images.idx3-ubyte";
-    nameLabelsFile = "train-labels.idx1-ubyte";
+    nameImagesFile = "./mnist/train-images.idx3-ubyte";
+    nameLabelsFile = "./mnist/train-labels.idx1-ubyte";
   } else {
-    nameImagesFile = "t10k-images.idx3-ubyte";
-    nameLabelsFile = "t10k-labels.idx1-ubyte";
+    nameImagesFile = "./mnist/t10k-images.idx3-ubyte";
+    nameLabelsFile = "./mnist/t10k-labels.idx1-ubyte";
   }
 
   // Read images

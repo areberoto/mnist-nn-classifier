@@ -10,8 +10,6 @@ using std::cout;
 using std::endl;
 using std::string;
 
-using namespace cv;
-
 // Constructor
 Network::Network(int *size_layers)
     : num_layers{3}, performance{0}, biases{nullptr}, weights{nullptr},
@@ -252,7 +250,7 @@ void Network::classify() {
   Matrix result{};
   int num_images{30};
 
-  Mat image = Mat::zeros(28 * num_images + 60, 28 * num_images, CV_8UC3);
+  cv::Mat image = cv::Mat::zeros(28 * num_images + 60, 28 * num_images, CV_8UC3);
   for (size_t k{0}; k < num_images / 2; k++) {
     for (size_t l{0}; l < num_images; l++) {
       ima = test.getImage(k * num_images + l);
@@ -263,19 +261,19 @@ void Network::classify() {
 
       for (size_t i{0}; i < 28; i++) {
         for (size_t j{0}; j < 28; j++)
-          circle(image, Point(j + (l * 28), i + (2 * k * num_images)), 0,
-                 Scalar(ima[i * 28 + j], ima[i * 28 + j], ima[i * 28 + j]), 0);
+          circle(image, cv::Point(j + (l * 28), i + (2 * k * num_images)), 0,
+                 cv::Scalar(ima[i * 28 + j], ima[i * 28 + j], ima[i * 28 + j]), 0);
       }
 
       if (y == r) {
         putText(image, std::to_string(r),
-                Point(l * 28, 56 + (2 * k * num_images)), FONT_HERSHEY_DUPLEX,
-                1.0, Scalar(0, 255, 0), 1);
+                cv::Point(l * 28, 56 + (2 * k * num_images)), cv::FONT_HERSHEY_DUPLEX,
+                1.0, cv::Scalar(0, 255, 0), 1);
         correct++;
       } else
         putText(image, std::to_string(r),
-                Point(l * 28, 56 + (2 * k * num_images)), FONT_HERSHEY_DUPLEX,
-                1.0, Scalar(0, 0, 255), 1);
+                cv::Point(l * 28, 56 + (2 * k * num_images)), cv::FONT_HERSHEY_DUPLEX,
+                1.0, cv::Scalar(0, 0, 255), 1);
     }
   }
 
@@ -284,5 +282,5 @@ void Network::classify() {
        << endl;
 
   imshow("Display Window", image);
-  waitKey(0);
+  cv::waitKey(0);
 }
